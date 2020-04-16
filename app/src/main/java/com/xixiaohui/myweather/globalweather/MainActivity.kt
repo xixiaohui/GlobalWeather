@@ -5,8 +5,13 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+//import com.google.android.gms.ads.AdListener
+//import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.MobileAds
+//import com.google.android.gms.ads.RequestConfiguration
 
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,9 +22,25 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                .setAction("Action", null).show()
         }
+
+//        MobileAds.initialize(this) {}
+//
+//        MobileAds.setRequestConfiguration(
+//            RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("25BC5BA54C2FF33B54773F67AAF0A33F")).build()
+//        )
+//
+//        val adRequest = AdRequest.Builder().build()
+//
+//
+//        adView.loadAd(adRequest)
+
+//        val listener:AdListener = AdListener()
+
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -36,4 +57,22 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+//        adView.pause()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        adView.resume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+//        adView.destroy()
+    }
+
+
 }
