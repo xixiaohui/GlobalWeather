@@ -73,4 +73,9 @@ dependencies {
 
     //admob
 //    implementation 'com.google.android.gms:play-services-ads:19.0.1'
+
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation files('libs/AMap_Location_V4.0.1_20180426.jar')
+    implementation files('libs/HeWeather_Android_Common_V3.2.jar')
+
 }

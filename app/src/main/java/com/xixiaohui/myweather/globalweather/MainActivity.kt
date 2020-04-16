@@ -1,43 +1,30 @@
 package com.xixiaohui.myweather.globalweather
 
-import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
 //import com.google.android.gms.ads.AdListener
 //import com.google.android.gms.ads.AdRequest
 //import com.google.android.gms.ads.MobileAds
 //import com.google.android.gms.ads.RequestConfiguration
 
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import com.xixiaohui.myweather.globalweather.bean.CityBeanList
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
+    var cityBeanList: CityBeanList = CityBeanList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
-//        MobileAds.initialize(this) {}
-//
-//        MobileAds.setRequestConfiguration(
-//            RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("25BC5BA54C2FF33B54773F67AAF0A33F")).build()
-//        )
-//
-//        val adRequest = AdRequest.Builder().build()
-//
-//
-//        adView.loadAd(adRequest)
-
-//        val listener:AdListener = AdListener()
-
+//        fab.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+//        }
     }
 
 
@@ -60,18 +47,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-//        adView.pause()
 
     }
 
     override fun onResume() {
         super.onResume()
-//        adView.resume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-//        adView.destroy()
+    }
+    
+    private fun initFragments(first:Boolean): Unit {
+
+
     }
 
 
