@@ -18,11 +18,16 @@ import com.heweather.owp.globalweather.until.ContentUtil
 import com.heweather.owp.service.LocationService
 import interfaces.heweather.com.interfacesmodule.bean.Code
 import interfaces.heweather.com.interfacesmodule.bean.Lang
+import interfaces.heweather.com.interfacesmodule.bean.air.Air
+import interfaces.heweather.com.interfacesmodule.bean.air.now.AirNow
+import interfaces.heweather.com.interfacesmodule.bean.grid.now.GridNow
+import interfaces.heweather.com.interfacesmodule.bean.weather.Weather
 import interfaces.heweather.com.interfacesmodule.bean.weather.forecast.Forecast
 import interfaces.heweather.com.interfacesmodule.bean.weather.hourly.Hourly
 import interfaces.heweather.com.interfacesmodule.bean.weather.lifestyle.Lifestyle
 import interfaces.heweather.com.interfacesmodule.bean.weather.now.Now
 import interfaces.heweather.com.interfacesmodule.bean.weather.now.NowBase
+import interfaces.heweather.com.interfacesmodule.view.HeConfig
 import interfaces.heweather.com.interfacesmodule.view.HeWeather
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -36,21 +41,95 @@ class MainActivity : AppCompatActivity() {
 
         initPermission()
         initLocation()
+
+    }
+
+    /**
+     * 和风天气API 测试
+     */
+    fun testHeWeatherApi(): Unit {
+        getWeather()
         getWeatherNow()
+//        getWeatherNow(Lang.FRENCH)
         getWeatherForcast()
         getWeatherHourly()
         getWeatherLifeStyle()
+//        getWeatherGridNow()
+//        getWeatherAir()
+//        getWeatherAirNow()
     }
+    //空气质量实况 permission denied
+    fun getWeatherAirNow(): Unit {
+        HeWeather.getAirNow(this@MainActivity,
+            ContentUtil.NOW_LON.toString() + "," + ContentUtil.NOW_LAT,
+            Lang.CHINESE_SIMPLIFIED,
+            interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
+            object : HeWeather.OnResultAirNowBeansListener {
+                override fun onSuccess(search: AirNow?) {
+                    Log.i("getWeatherAirNow", "getWeatherAirNow onSuccess:" + Gson().toJson(search))
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.i("getWeatherAirNow", "getWeatherAirNow Failed:" + e)
+                }
+
+
+            })
+    }
+
+    //空气质量实况 permission denied
+    fun getWeatherAir(): Unit {
+        HeWeather.getAir(this@MainActivity,
+            ContentUtil.NOW_LON.toString() + "," + ContentUtil.NOW_LAT,
+            Lang.CHINESE_SIMPLIFIED,
+            interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
+            object : HeWeather.OnResultAirBeanListener {
+                override fun onSuccess(search: Air?) {
+                    Log.i("getWeatherAir", "getWeatherAir onSuccess:" + Gson().toJson(search))
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.i("getWeatherAir", "getWeatherAir Failed:" + e)
+                }
+
+
+            })
+    }
+
+    //格点实况天气 账号没有权限 permission denied
+    fun getWeatherGridNow(): Unit {
+        HeWeather.getWeatherGridNow(this@MainActivity,
+            ContentUtil.NOW_LON.toString() + "," + ContentUtil.NOW_LAT,
+            Lang.CHINESE_SIMPLIFIED,
+            interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
+            object : HeWeather.OnResultWeatherGirdNowBeanListener {
+                override fun onSuccess(search: GridNow?) {
+                    Log.i(
+                        "getWeatherGridNow",
+                        "getWeatherGridNow onSuccess:" + Gson().toJson(search)
+                    )
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.i("getWeatherGridNow", "getWeatherGridNow Failed:" + e)
+                }
+
+            })
+    }
+
     //生活指数
     fun getWeatherLifeStyle(): Unit {
         HeWeather.getWeatherLifeStyle(this@MainActivity,
             ContentUtil.NOW_LON.toString() + "," + ContentUtil.NOW_LAT,
             Lang.CHINESE_SIMPLIFIED,
             interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
-            object : HeWeather.OnResultWeatherLifeStyleBeanListener{
+            object : HeWeather.OnResultWeatherLifeStyleBeanListener {
 
                 override fun onSuccess(search: Lifestyle?) {
-                    Log.i("getWeatherLifeStyle", "getWeatherLifeStyle onSuccess:" + Gson().toJson(search))
+                    Log.i(
+                        "getWeatherLifeStyle",
+                        "getWeatherLifeStyle onSuccess:" + Gson().toJson(search)
+                    )
                 }
 
                 override fun onError(e: Throwable?) {
@@ -59,13 +138,14 @@ class MainActivity : AppCompatActivity() {
 
             })
     }
+
     //逐小时预报
     fun getWeatherHourly(): Unit {
         HeWeather.getWeatherHourly(this@MainActivity,
             ContentUtil.NOW_LON.toString() + "," + ContentUtil.NOW_LAT,
             Lang.CHINESE_SIMPLIFIED,
             interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
-            object : HeWeather.OnResultWeatherHourlyBeanListener{
+            object : HeWeather.OnResultWeatherHourlyBeanListener {
 
                 override fun onSuccess(search: Hourly?) {
                     Log.i("getWeatherHourly", "getWeatherHourly onSuccess:" + Gson().toJson(search))
@@ -77,16 +157,20 @@ class MainActivity : AppCompatActivity() {
 
             })
     }
+
     //未来一周预报 官方说是3-10天预报
     fun getWeatherForcast(): Unit {
         HeWeather.getWeatherForecast(this@MainActivity,
             ContentUtil.NOW_LON.toString() + "," + ContentUtil.NOW_LAT,
             Lang.CHINESE_SIMPLIFIED,
             interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
-            object : HeWeather.OnResultWeatherForecastBeanListener{
+            object : HeWeather.OnResultWeatherForecastBeanListener {
                 override fun onSuccess(search: Forecast?) {
 
-                    Log.i("getWeatherForcast", "getWeatherForcast onSuccess:" + Gson().toJson(search))
+                    Log.i(
+                        "getWeatherForcast",
+                        "getWeatherForcast onSuccess:" + Gson().toJson(search)
+                    )
 
                 }
 
@@ -96,15 +180,19 @@ class MainActivity : AppCompatActivity() {
 
             })
     }
-    //实况天气
-    fun getWeatherNow(): Unit {
+
+    /***
+     * lang 语言
+     * 实况天气
+     */
+    fun getWeatherNow(lang: Lang = Lang.CHINESE_SIMPLIFIED): Unit {
         HeWeather.getWeatherNow(this@MainActivity,
             ContentUtil.NOW_LON.toString() + "," + ContentUtil.NOW_LAT,
-            Lang.CHINESE_SIMPLIFIED,
+            lang,
             interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
             object : HeWeather.OnResultWeatherNowBeanListener {
                 override fun onSuccess(search: Now?) {
-                    Log.i("OnSuccess", "Weather Now onSuccess:" + Gson().toJson(search))
+                    Log.i("getWeatherNow", "Weather Now onSuccess:" + Gson().toJson(search))
 
                     Toast.makeText(this@MainActivity, search?.basic?.location, Toast.LENGTH_LONG)
                         .show()
@@ -121,7 +209,7 @@ class MainActivity : AppCompatActivity() {
                         val status = search!!.status
                         val code =
                             Code.toEnum(status)
-                        Log.i("OnSuccess failed", "failed code: $code")
+                        Log.i("getWeatherNow failed", "failed code: $code")
                     }
 
                 }
@@ -133,6 +221,29 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
+    /**
+     * 常规天气数据集合
+     */
+    fun getWeather(lang: Lang = Lang.CHINESE_SIMPLIFIED): Unit {
+        HeWeather.getWeather(this@MainActivity,
+            ContentUtil.NOW_LON.toString() + "," + ContentUtil.NOW_LAT,
+            lang,
+            interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
+            object : HeWeather.OnResultWeatherDataListBeansListener {
+                override fun onSuccess(weather: Weather?) {
+                    Log.i("getWeather", "getWeather onSuccess:" + Gson().toJson(weather))
+                }
+
+                override fun onError(e: Throwable?) {
+
+                }
+
+
+            })
+    }
+
+
+
     //声明AMapLocationClient类对象
     var mLocationClient: AMapLocationClient? = null
 
@@ -141,7 +252,7 @@ class MainActivity : AppCompatActivity() {
         override fun onLocationChanged(amapLocation: AMapLocation?) {
             if (amapLocation != null) {
                 if (amapLocation.getErrorCode() == 0) {
-                    //可在其中解析amapLocation获取相应内容。
+                    //可在其中解析amapLocation获取相应内容。获取经纬度，以供和风天气使用
 
                     ContentUtil.NOW_LON = amapLocation.longitude
                     ContentUtil.NOW_LAT = amapLocation.latitude
@@ -176,6 +287,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * 初始化高德定位
+     */
     private fun initLocation() {
         //初始化定位
         mLocationClient = AMapLocationClient(applicationContext)
