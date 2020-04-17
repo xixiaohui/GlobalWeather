@@ -21,16 +21,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getWeatherNow(): Unit {
-        HeWeather.getWeatherNow(this@MainActivity,"CN101010100", Lang.CHINESE_SIMPLIFIED,interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
-                object : HeWeather.OnResultWeatherNowBeanListener{
+        HeWeather.getWeatherNow(this@MainActivity, "auto_ip", Lang.CHINESE_SIMPLIFIED, interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
+                object : HeWeather.OnResultWeatherNowBeanListener {
                     override fun onSuccess(dataObject: Now?) {
-                        Log.i("OnSuccess","Weather Now onSuccess:" + Gson().toJson(dataObject))
+                        Log.i("OnSuccess", "Weather Now onSuccess:" + Gson().toJson(dataObject))
 
                         if (Code.OK.code
                                         .equals(dataObject!!.status, ignoreCase = true)
                         ) {
                             //此时返回数据
                             val now: NowBase = dataObject!!.now
+
                         } else {
                             //在此查看返回数据失败的原因
                             val status = dataObject!!.status
