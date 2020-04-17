@@ -16,11 +16,11 @@ public class CityNow {
      * code : 104
      */
 
-    private String lat;
-    private String lon;
-    private String city;
-    private String location;
-    private String province;
+    private String lat;//城市纬度
+    private String lon;//城市经度
+    private String city;//城市ID
+    private String location;//城市名称
+    private String province; //
     private String tmp;
     private String code;
 

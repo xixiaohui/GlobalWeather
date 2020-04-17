@@ -15,11 +15,26 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        he {
+            keyAlias "myweather"
+            keyPassword "ivy,123"
+            storeFile rootProject.file("myr.jks")
+            storePassword "ivy,123"
+        }
+    }
+
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.he
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.he
         }
     }
 }
@@ -39,5 +54,6 @@ dependencies {
 
     implementation files('libs/log4j-1.2.17.jar')
     implementation files('libs/HeWeather_Android_Common_V3.2.jar')
-    implementation files('libs/AMap_Location_V4.0.1_20180426.jar')
+//    implementation files('libs/AMap_Location_V4.0.1_20180426.jar')
+    implementation files('libs/AMap_Location_V4.7.1_20190803.jar')
 }

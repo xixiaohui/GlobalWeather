@@ -20,8 +20,10 @@ class ContentUtil {
 
 
         //当前所在位置
-        var NOW_LON = 74.00;
-        var NOW_LAT = 40.43;
+        //经度
+        var NOW_LON = 117.134388;
+        //纬度
+        var NOW_LAT = 31.839022;
 
         //当前城市
         var NOW_CITY_ID = SpUtils.getString(MyApplication.getContext(), "lastLocation", "US3290117");
