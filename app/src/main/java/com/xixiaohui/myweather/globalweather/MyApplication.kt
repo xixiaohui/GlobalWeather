@@ -2,7 +2,16 @@ package com.xixiaohui.myweather.globalweather.com.xixiaohui.myweather.globalweat
 
 import android.app.Application
 import android.content.Context
-import java.util.logging.Logger
+import android.os.Environment
+import android.util.Log
+import com.xixiaohui.myweather.globalweather.until.ContentUtil
+import interfaces.heweather.com.interfacesmodule.view.HeConfig
+import org.apache.log4j.Level
+import java.io.File
+//import java.util.logging.Logger
+
+import org.apache.log4j.Logger
+
 
 class MyApplication : Application() {
 
@@ -22,14 +31,36 @@ class MyApplication : Application() {
         super.onCreate()
         instance = this
 
+        //在主线程中new的handler就是主线程的handler
+        //初始化Handler
+        HeConfig.init(ContentUtil.APK_USERNAME, ContentUtil.APK_KEY)
+        HeConfig.switchToFreeServerNode()
+
         this.configLog()
     }
 
-    private fun configLog(): Unit {
-
-        log = Logger.getLogger(this.javaClass.toString())
-
-
+    fun configLog() {
+//        try {
+//            val logConfigurator = LogConfigurator()
+//
+//            logConfigurator.setFileName(
+//                Environment.getExternalStorageDirectory()
+//                    .toString() + File.separator + "crifanli_log4j.log"
+//            )
+//            // Set the root log level
+//            logConfigurator.setRootLevel(Level.DEBUG)
+//            // Set log level of a specific logger
+//            logConfigurator.setLevel("org.apache", Level.ERROR)
+//            logConfigurator.configure()
+//            val catchHandler: CrashHandler = CrashHandler.getInstance()
+//            catchHandler.init(applicationContext)
+//        } catch (e: Exception) {
+//            val TAG = "sky"
+//            Log.i(TAG, "configLog: $e")
+//        }
+//
+//        //gLogger = Logger.getLogger(this.getClass());
+//        log = Logger.getLogger("CrifanLiLog4jTest")
     }
 
 

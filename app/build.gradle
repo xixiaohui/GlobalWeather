@@ -35,6 +35,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -51,6 +56,14 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    sourceSets{
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
     }
 
 }
@@ -73,9 +86,12 @@ dependencies {
 
     //admob
 //    implementation 'com.google.android.gms:play-services-ads:19.0.1'
-
     implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation files('libs/HeWeather_Android_Common_V3.3.jar')
+    
+    api files('libs/log4j-1.2.17.jar')
     implementation files('libs/AMap_Location_V4.0.1_20180426.jar')
-    implementation files('libs/HeWeather_Android_Common_V3.2.jar')
+
 
 }
