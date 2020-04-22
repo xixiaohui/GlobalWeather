@@ -1,4 +1,4 @@
-package com.heweather.owp
+package com.heweather.owp.view
 
 import android.Manifest
 import android.content.Intent
@@ -14,6 +14,7 @@ import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
 import com.google.gson.Gson
+import com.heweather.owp.R
 import com.heweather.owp.globalweather.until.ContentUtil
 import com.heweather.owp.service.LocationService
 import interfaces.heweather.com.interfacesmodule.bean.Code
@@ -27,7 +28,6 @@ import interfaces.heweather.com.interfacesmodule.bean.weather.hourly.Hourly
 import interfaces.heweather.com.interfacesmodule.bean.weather.lifestyle.Lifestyle
 import interfaces.heweather.com.interfacesmodule.bean.weather.now.Now
 import interfaces.heweather.com.interfacesmodule.bean.weather.now.NowBase
-import interfaces.heweather.com.interfacesmodule.view.HeConfig
 import interfaces.heweather.com.interfacesmodule.view.HeWeather
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 //        getWeatherAir()
 //        getWeatherAirNow()
     }
+
     //空气质量实况 permission denied
     fun getWeatherAirNow(): Unit {
         HeWeather.getAirNow(this@MainActivity,
@@ -72,8 +73,6 @@ class MainActivity : AppCompatActivity() {
                 override fun onError(e: Throwable?) {
                     Log.i("getWeatherAirNow", "getWeatherAirNow Failed:" + e)
                 }
-
-
             })
     }
 
@@ -91,8 +90,6 @@ class MainActivity : AppCompatActivity() {
                 override fun onError(e: Throwable?) {
                     Log.i("getWeatherAir", "getWeatherAir Failed:" + e)
                 }
-
-
             })
     }
 

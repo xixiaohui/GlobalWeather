@@ -1,7 +1,7 @@
 package com.heweather.owp.globalweather.until
 
 import com.heweather.owp.MyApplication
-import com.heweather.owp.until.SpUtils
+import com.heweather.owp.utils.SpUtils
 
 
 class ContentUtil {

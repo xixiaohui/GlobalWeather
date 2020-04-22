@@ -1,4 +1,4 @@
-package com.heweather.owp.until;
+package com.heweather.owp.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
