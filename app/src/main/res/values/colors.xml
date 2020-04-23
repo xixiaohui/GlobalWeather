@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">@color/colorBeijing</color>
+    <color name="colorPrimaryDark">@color/colorBeijing</color>
+    <color name="colorAccent">@color/colorFirst</color>
+
+
+    <color name="colorBeijing">#000000</color>
+    <color name="colorFirst">#ffffff</color>
+    <color name="colorSecond">#fe2550</color>
 </resources>
