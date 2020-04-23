@@ -42,22 +42,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="300dp"
+                    android:layout_marginTop="250dp"
                     android:gravity="center_horizontal"
                     android:text="@{base.location}"
                     android:textColor="@color/colorFirst"
-                    android:textSize="30sp" />
+                    android:textSize="45sp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="350dp"
+                    android:layout_marginTop="260dp"
                     android:gravity="center_horizontal"
                     android:text="@{now.tmp +'°'}"
                     android:textColor="@color/colorFirst"
-                    android:textSize="80sp" />
+                    android:textSize="110sp" />
 
             </RelativeLayout>
 

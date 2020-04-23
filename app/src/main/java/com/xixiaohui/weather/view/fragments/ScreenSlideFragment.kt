@@ -1,6 +1,7 @@
 package com.xixiaohui.weather.view.fragments
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.xixiaohui.weather.data.Base
 import com.xixiaohui.weather.data.Now
 import com.xixiaohui.weather.databinding.FragmentScreenSlideBinding
 import com.xixiaohui.weather.view.activity.MainActivity
+import org.apache.log4j.chainsaw.Main
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,9 +54,14 @@ class ScreenSlideFragment : Fragment() {
         binding.now = this.now
         binding.base = this.base
 
+        binding.location.typeface = (activity as MainActivity).getMyFonts()
+        binding.temperature.typeface = (activity as MainActivity).getEnglishFonts()
+
         // Inflate the layout for this fragment
         return binding.root
     }
+
+
 
     fun getArgumentsTest(): Unit {
         val location = arguments?.get("LOCATION")

@@ -134,6 +134,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
+     * 获取英文字体
+     */
+    fun getEnglishFonts(): Typeface {
+//        var mgr = assets
+        var tf: Typeface = Typeface.createFromAsset(assets, "fonts/GloriaHallelujah-Regular.ttf")
+        return tf
+    }
+
+    /**
      * 初始化 权限授权
      * 获取当前位置
      */
@@ -295,8 +304,7 @@ class MainActivity : AppCompatActivity() {
                     //把json对象映射成Base对象
                     var base:MyBase = Gson().fromJson<MyBase>(baseJson,MyBase::class.java)
                     this@MainActivity.base = base
-////                    binding.base = base
-////                    location.typeface = getMyFonts()
+
 
 
                     if (Code.OK.code
