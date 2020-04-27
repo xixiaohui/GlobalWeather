@@ -15,7 +15,7 @@ tz	"+8.00"
  */
 
 data class Base(var cid:String):Serializable {
-   lateinit var admin_area:String
+    lateinit var admin_area:String
     lateinit var cnty:String
     lateinit var lat:String
     lateinit var lon:String

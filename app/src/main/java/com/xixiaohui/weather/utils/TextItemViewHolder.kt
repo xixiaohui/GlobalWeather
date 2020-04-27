@@ -1,4 +1,8 @@
 package com.xixiaohui.weather.utils
 
-class TextItemViewHolder {
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+
+class TextItemViewHolder(val myView: View) : RecyclerView.ViewHolder(myView) {
+
 }

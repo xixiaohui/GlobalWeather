@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -10,9 +12,7 @@
             type="com.xixiaohui.weather.data.Base" />
     </data>
 
-    <ScrollView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,39 +31,72 @@
 
                 <ImageView
                     android:id="@+id/main_weather_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="87dp"
-                    android:src="@mipmap/test" />
+                    android:layout_marginTop="5dp"
+                    android:src="@mipmap/sunny" />
+            </RelativeLayout>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="250dp"
-                    android:gravity="center_horizontal"
-                    android:text="@{base.location}"
-                    android:textColor="@color/colorFirst"
-                    android:textSize="45sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="260dp"
+                    android:layout_marginTop="1dp"
                     android:gravity="center_horizontal"
                     android:text="@{now.tmp +'°'}"
                     android:textColor="@color/colorFirst"
-                    android:textSize="110sp" />
-
+                    android:textSize="80sp" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_horizontal"
+                    android:text="@{now.cond_txt}"
+                    android:textColor="@color/colorFirst"
+                    android:textSize="40sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/cond_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="55dp"
+                    android:gravity="center_horizontal"
+                    android:text="@{base.location}"
+                    android:textColor="@color/colorFirst"
+                    android:textSize="40sp" />
+            </RelativeLayout>
+            <!--            <include-->
+            <!--                android:id="@+id/forcast"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                layout="@layout/forcast_item_view"></include>-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recipe_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="100dp"
+                >
+            </androidx.recyclerview.widget.RecyclerView>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

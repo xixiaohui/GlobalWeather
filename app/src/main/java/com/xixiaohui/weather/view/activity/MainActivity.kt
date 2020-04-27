@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
+import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -19,13 +20,13 @@ import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.xixiaohui.weather.MyApplication
 import com.xixiaohui.weather.databinding.ActivityMainBinding
 import com.xixiaohui.weather.globalweather.until.ContentUtil
 import com.xixiaohui.weather.service.LocationService
-import com.xixiaohui.weather.view.fragments.ARG_BASE
-import com.xixiaohui.weather.view.fragments.ARG_NOW
+import com.xixiaohui.weather.view.fragments.*
 import com.xixiaohui.weather.view.transform.ZoomOutPageTransformer
-import com.xixiaohui.weather.view.fragments.ScreenSlideFragment
 import interfaces.heweather.com.interfacesmodule.bean.Code
 import interfaces.heweather.com.interfacesmodule.bean.Lang
 import interfaces.heweather.com.interfacesmodule.bean.air.Air
@@ -38,8 +39,10 @@ import interfaces.heweather.com.interfacesmodule.bean.weather.lifestyle.Lifestyl
 import interfaces.heweather.com.interfacesmodule.bean.weather.now.Now
 import interfaces.heweather.com.interfacesmodule.bean.weather.now.NowBase
 import interfaces.heweather.com.interfacesmodule.view.HeWeather
-import kotlinx.android.synthetic.main.fragment_screen_slide.*
+import java.io.Serializable
+import java.lang.reflect.Type
 import com.xixiaohui.weather.data.Base as MyBase
+import com.xixiaohui.weather.data.Forecast as MyForecast
 import com.xixiaohui.weather.data.Now as MyNow
 
 
@@ -53,8 +56,12 @@ class MainActivity : AppCompatActivity() {
 
 
     lateinit var mPager: ViewPager
-    lateinit var now:MyNow
-    lateinit var base:MyBase
+    private lateinit var mPagerAdaper: ScreenSlidePagerAdapter
+    lateinit var now: MyNow
+    lateinit var base: MyBase
+
+    var forecast: MutableList<MyForecast> = mutableListOf<MyForecast>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,19 +69,42 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         initPermissionAndLocation()
 
-
+//        binding.floatActionButton.setOnClickListener {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                onClickFloatingButton(it)
+//            }
+//        }
     }
+
+//    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+//    fun onClickFloatingButton(view: View): Unit {
+//
+//        Log.i("onClickFloatingButton", "点击了Floating Action Button")
+//        val options = ActivityOptions.makeSceneTransitionAnimation(this,binding.root,"root")
+//        val intent = Intent(this@MainActivity, DiscoverActivity::class.java)
+//        startActivity(intent)
+//        val button = binding.floatActionButton
+//        binding.floatActionButton.addTransformationCallback(object :
+//            TransformationCallback<FloatingActionButton> {
+//            override fun onTranslationChanged(view: FloatingActionButton?) {
+//            }
+//
+//            override fun onScaleChanged(view: FloatingActionButton?) {
+//            }
+//        })
+//    }
+
 
     /**
      * 设置viewPager的适配器
      */
     fun setPageViewAdaper() {
         mPager = binding.viewPager
-        val pagerAdaper = ScreenSlidePagerAdapter(supportFragmentManager)
-        mPager.adapter = pagerAdaper
+        mPagerAdaper = ScreenSlidePagerAdapter(supportFragmentManager)
+
+        mPager.adapter = mPagerAdaper
         mPager.setPageTransformer(
             true,
             ZoomOutPageTransformer()
@@ -103,9 +133,15 @@ class MainActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
 
             val fragment = ScreenSlideFragment()
-            val bundle = Bundle()
-            bundle.putSerializable(ARG_NOW,now)
-            bundle.putSerializable(ARG_BASE,base)
+            val bundle = Bundle().also {
+                it.putSerializable(ARG_NOW, now)
+                it.putSerializable(ARG_BASE, base)
+                var i = 0
+                for (i in 0..forecast.size - 1) {
+                    it.putSerializable(ARG_FORECAST + i, forecast[i])
+                }
+            }
+
             fragment.arguments = bundle
             return fragment
         }
@@ -140,6 +176,41 @@ class MainActivity : AppCompatActivity() {
 //        var mgr = assets
         var tf: Typeface = Typeface.createFromAsset(assets, "fonts/GloriaHallelujah-Regular.ttf")
         return tf
+    }
+
+    fun getEnglishFontsOne(): Typeface {
+//        var mgr = assets
+        var tf: Typeface = Typeface.createFromAsset(assets, "fonts/AmaticSC-Regular.ttf")
+        return tf
+    }
+
+    fun getEnglishFontsTwo(): Typeface {
+//        var mgr = assets
+        var tf: Typeface =
+            Typeface.createFromAsset(assets, "fonts/MountainsofChristmas-Regular.ttf")
+        return tf
+    }
+
+    fun getEnglishFontsThree(): Typeface {
+//        var mgr = assets
+        var tf: Typeface = Typeface.createFromAsset(assets, "fonts/SueEllenFrancisco-Regular.ttf")
+        return tf
+    }
+
+    companion object {
+        fun getMyFonts(): Typeface {
+//        var mgr = assets
+            var tf: Typeface = Typeface.createFromAsset(
+                MyApplication.getContext().assets,
+                "fonts/ZCOOLQingKeHuangYou-Regular.ttf"
+            )
+            return tf
+        }
+        fun getEnglishFontsOne(): Typeface {
+//        var mgr = assets
+            var tf: Typeface = Typeface.createFromAsset(MyApplication.getContext().assets, "fonts/AmaticSC-Regular.ttf")
+            return tf
+        }
     }
 
     /**
@@ -268,17 +339,42 @@ class MainActivity : AppCompatActivity() {
             object : HeWeather.OnResultWeatherForecastBeanListener {
                 override fun onSuccess(search: Forecast?) {
 
+                    var forecastJson = Gson().toJson(search?.daily_forecast)
+
+                    val founderListType: Type =
+                        object : TypeToken<MutableList<MyForecast?>?>() {}.getType()
+
+                    var forecast: MutableList<MyForecast> =
+                        Gson().fromJson<MutableList<MyForecast>>(
+                            forecastJson,
+                            founderListType
+                        )
+                    this@MainActivity.forecast = forecast
+
                     Log.i(
                         "getWeatherForcast",
                         "getWeatherForcast onSuccess:" + Gson().toJson(search)
                     )
+                    if (Code.OK.code
+                            .equals(search!!.status, ignoreCase = true)
+                    ) {
+                        //此时返回数据
 
+                        //设置listview
+                        setPageViewAdaper()
+
+                    } else {
+                        //在此查看返回数据失败的原因
+                        val status = search!!.status
+                        val code =
+                            Code.toEnum(status)
+                        Log.i("getWeatherForcast_f", "failed code: $code")
+                    }
                 }
 
                 override fun onError(e: Throwable?) {
                     Log.i("getWeatherForcast", "getWeatherForcast Failed:" + e)
                 }
-
             })
     }
 
@@ -296,13 +392,13 @@ class MainActivity : AppCompatActivity() {
                     Log.i("getWeatherNow", "Weather Now onSuccess:" + Gson().toJson(search))
                     var nowJson = Gson().toJson(search?.now)
                     //把json对象映射成Base对象
-                    var now:MyNow = Gson().fromJson<MyNow>(nowJson,MyNow::class.java)
+                    var now: MyNow = Gson().fromJson<MyNow>(nowJson, MyNow::class.java)
                     this@MainActivity.now = now
 
 ////                    binding.now = now
                     var baseJson = Gson().toJson(search?.basic)
                     //把json对象映射成Base对象
-                    var base:MyBase = Gson().fromJson<MyBase>(baseJson,MyBase::class.java)
+                    var base: MyBase = Gson().fromJson<MyBase>(baseJson, MyBase::class.java)
                     this@MainActivity.base = base
 
 
@@ -312,9 +408,8 @@ class MainActivity : AppCompatActivity() {
                     ) {
                         //此时返回数据
                         val now: NowBase? = search!!.now
-
-                        setPageViewAdaper()
-
+//                        setPageViewAdaper()
+                        getWeatherForcast()
                     } else {
                         //在此查看返回数据失败的原因
                         val status = search!!.status
@@ -368,6 +463,7 @@ class MainActivity : AppCompatActivity() {
                     ContentUtil.NOW_LAT = amapLocation.latitude
 
                     getWeatherNow()
+
 
                     Toast.makeText(
                         this@MainActivity,
@@ -450,3 +546,5 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
+
+

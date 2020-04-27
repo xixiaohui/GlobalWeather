@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.zhy:okhttputils:2.6.2'
 
     implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
 
 }

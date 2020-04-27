@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/madding_left"
+    android:background="@color/colorBeijing"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_weekday_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/text_title_madding_left"
+        android:text="@string/week_day"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorFirst"
+        android:textSize="@dimen/text_size" />
+
+    <ImageView
+        android:id="@+id/image_weekday_one"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:layout_marginTop="@dimen/madding_top_second"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:src="@mipmap/sunny" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_weekday_tem_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/madding_top_second"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="7"
+        android:textColor="@color/colorFirst"
+        android:textSize="@dimen/text_size" />
+
+</LinearLayout>
