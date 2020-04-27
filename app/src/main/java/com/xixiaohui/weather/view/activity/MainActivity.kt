@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
 
     var forecast: MutableList<MyForecast> = mutableListOf<MyForecast>()
 
+    //增加额外的区域
+    var otherAreas:MutableList<ScreenSlideFragment> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,15 +97,35 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        })
 //    }
+    /**
+     * 初始化位置区域
+     */
+    fun initDefaultAreas(): Unit {
 
+        val fragment = ScreenSlideFragment()
+        val bundle = Bundle().also {
+            it.putSerializable(ARG_NOW, now)
+            it.putSerializable(ARG_BASE, base)
+            var i = 0
+            for (i in 0..forecast.size - 1) {
+                it.putSerializable(ARG_FORECAST + i, forecast[i])
+            }
+        }
+        fragment.arguments = bundle
+
+        this.otherAreas.add(fragment)
+
+    }
 
     /**
      * 设置viewPager的适配器
      */
     fun setPageViewAdaper() {
+
+        initDefaultAreas()
+
         mPager = binding.viewPager
         mPagerAdaper = ScreenSlidePagerAdapter(supportFragmentManager)
-
         mPager.adapter = mPagerAdaper
         mPager.setPageTransformer(
             true,
@@ -111,9 +133,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-
     override fun onBackPressed() {
-
         if (mPager.currentItem == 0) {
             super.onBackPressed()
         } else {
@@ -130,24 +150,17 @@ class MainActivity : AppCompatActivity() {
             fm,
             FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
         ) {
+        var otherAreasAdapter:MutableList<ScreenSlideFragment> = mutableListOf()
+        init {
+            this.otherAreasAdapter = otherAreas
+
+        }
         override fun getItem(position: Int): Fragment {
-
-            val fragment = ScreenSlideFragment()
-            val bundle = Bundle().also {
-                it.putSerializable(ARG_NOW, now)
-                it.putSerializable(ARG_BASE, base)
-                var i = 0
-                for (i in 0..forecast.size - 1) {
-                    it.putSerializable(ARG_FORECAST + i, forecast[i])
-                }
-            }
-
-            fragment.arguments = bundle
-            return fragment
+            return this.otherAreasAdapter[position]
         }
 
         override fun getCount(): Int {
-            return NUM_PAGES
+            return otherAreasAdapter.size
         }
     }
 
@@ -220,7 +233,7 @@ class MainActivity : AppCompatActivity() {
     fun initPermissionAndLocation() {
         initPermission()
         initLocation()
-        testHeWeatherApi()
+//        testHeWeatherApi()
     }
 
     /**
@@ -228,7 +241,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun testHeWeatherApi(): Unit {
 //        getWeather()
-        getWeatherNow()
+//        getWeatherNow()
 //        getWeatherNow(Lang.FRENCH)
 //        getWeatherForcast()
 //        getWeatherHourly()
@@ -408,7 +421,6 @@ class MainActivity : AppCompatActivity() {
                     ) {
                         //此时返回数据
                         val now: NowBase? = search!!.now
-//                        setPageViewAdaper()
                         getWeatherForcast()
                     } else {
                         //在此查看返回数据失败的原因

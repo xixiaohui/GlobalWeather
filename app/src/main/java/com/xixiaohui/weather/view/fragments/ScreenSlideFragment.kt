@@ -152,25 +152,6 @@ class ScreenSlideFragment : Fragment() {
                 this.setImageResource(MyIconUtils.getWeatherIcon(list[position].cond_code_d))
             }
         }
-
-//        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-//            val view: View
-//            var holder: ViewListViewHolder
-//            if (convertView == null) {
-//                view = inflater.inflate(R.layout.forecast, parent, false)
-//                holder = ViewListViewHolder(view)
-//                view.tag = holder
-//            } else {
-//                view = convertView
-//                holder = view.tag as ViewListViewHolder
-//            }
-//            var tempView = holder.viewItem.findViewById<TextView>(R.id.text_weekday_tem_one)
-//            tempView.text = list[position].tmp_max
-//
-//            return view
-//        }
-
-
     }
 
 
