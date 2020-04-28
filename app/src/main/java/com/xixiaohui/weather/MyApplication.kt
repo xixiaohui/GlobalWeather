@@ -2,7 +2,11 @@ package com.xixiaohui.weather
 
 import android.app.Application
 import android.content.Context
+import com.xixiaohui.weather.data.Base
+import com.xixiaohui.weather.data.Forecast
+import com.xixiaohui.weather.data.Now
 import com.xixiaohui.weather.globalweather.until.ContentUtil
+import com.xixiaohui.weather.view.fragments.ScreenSlideFragment
 import interfaces.heweather.com.interfacesmodule.view.HeConfig
 //import java.util.logging.Logger
 
@@ -19,6 +23,16 @@ class MyApplication : Application() {
             return instance!!.applicationContext
         }
 
+        var nowDatas: MutableList<Now> = mutableListOf()
+        var baseDatas: MutableList<Base> = mutableListOf()
+        var forecastDatas: MutableList<MutableList<Forecast>> = mutableListOf()
+
+        //增加额外的区域
+        var otherAreas: MutableList<ScreenSlideFragment> = mutableListOf()
+
+        var first:Boolean = true
+
+        var index = 0
     }
 
     var log: Logger? = null

@@ -7,5 +7,6 @@
 
     <color name="colorBeijing">#000000</color>
     <color name="colorFirst">#ffffff</color>
-    <color name="colorSecond">#fe2550</color>
+    <color name="colorSecond">#B8B8B8</color>
+    <color name="colorGrey">#FFB8B8B8</color>
 </resources>

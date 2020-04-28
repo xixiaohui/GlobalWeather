@@ -25,14 +25,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.DiscoverActivity"></activity>
+        <activity android:name=".view.activity.SettingActivity"></activity>
+        <activity android:name=".view.activity.DiscoverActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-1941973989297560~1987552982" /> <!-- 设置高德key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="7cb53cacd86426859dffdcbf984c2487"></meta-data> <!-- 声明Service组件 -->
+            android:value="7cb53cacd86426859dffdcbf984c2487" /> <!-- 声明Service组件 -->
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".view.activity.MainActivity">

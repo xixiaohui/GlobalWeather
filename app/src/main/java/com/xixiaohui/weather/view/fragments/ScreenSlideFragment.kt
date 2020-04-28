@@ -104,6 +104,7 @@ class ScreenSlideFragment : Fragment() {
     fun initListView() {
         val viewManager = LinearLayoutManager(MyApplication.getContext())
         viewManager.orientation = LinearLayoutManager.HORIZONTAL
+
         this.viewManager = viewManager
         viewAdapter = MyAdapter(forecast)
 
