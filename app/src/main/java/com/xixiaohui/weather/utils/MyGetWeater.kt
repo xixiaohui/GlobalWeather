@@ -9,6 +9,7 @@ import com.xixiaohui.weather.data.Forecast
 import com.xixiaohui.weather.data.LifeStyle
 import com.xixiaohui.weather.data.Now
 import com.xixiaohui.weather.globalweather.until.ContentUtil
+import com.xixiaohui.weather.view.activity.Key
 import interfaces.heweather.com.interfacesmodule.bean.Code
 import interfaces.heweather.com.interfacesmodule.bean.Lang
 import interfaces.heweather.com.interfacesmodule.bean.weather.Weather
@@ -77,16 +78,18 @@ class MyGetWeater {
                         MyApplication.nowDatas.add(search!!.now)
                         MyApplication.baseDatas.add(search!!.basic)
                         MyApplication.forecastDatas.add(search!!.daily_forecast)
-                        MyApplication.lifeStyleDatas.add(search!!.lifestyle)
+                        if(search.lifestyle != null){
+                            MyApplication.lifeStyleDatas.add(search!!.lifestyle)
+                        }
 
                         if (Code.OK.code
                                 .equals(search!!.status, ignoreCase = true)
                         ) {
                             //此时返回数据
-                            SpUtils.saveBean(MyApplication.getContext(),"now",MyApplication.nowDatas)
-                            SpUtils.saveBean(MyApplication.getContext(),"base",MyApplication.baseDatas)
-                            SpUtils.saveBean(MyApplication.getContext(),"daily_forecast",MyApplication.forecastDatas)
-                            SpUtils.saveBean(MyApplication.getContext(),"lifestyle",MyApplication.lifeStyleDatas)
+                            SpUtils.saveBean(MyApplication.getContext(),Key.NOW.toString(),MyApplication.nowDatas)
+                            SpUtils.saveBean(MyApplication.getContext(),Key.BASE.toString(),MyApplication.baseDatas)
+                            SpUtils.saveBean(MyApplication.getContext(),Key.DAILY_FORECAST.toString(),MyApplication.forecastDatas)
+                            SpUtils.saveBean(MyApplication.getContext(),Key.LIFE_STYLE.toString(),MyApplication.lifeStyleDatas)
 
                             wellDone.getDataOk()
                         } else {

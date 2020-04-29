@@ -56,6 +56,9 @@ import com.xixiaohui.weather.data.City as MyCity
 import com.xixiaohui.weather.data.Forecast as MyForecast
 import com.xixiaohui.weather.data.Now as MyNow
 
+enum class Key{
+    NOW,BASE,DAILY_FORECAST,LIFE_STYLE
+}
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -74,20 +77,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initPermission()
-    }
-
-    override fun onStart() {
-        super.onStart()
 
         if (MyApplication.isFirst) {
-            initLocation()
+            if(SpUtils.isHaveData(MyApplication.getContext(),Key.NOW.toString())){
+                MyApplication.getMySharedPreferences()
+                bindPageView()
+                setPageViewAdaper()
+            }else{
+                initLocation()
+            }
             MyApplication.isFirst = false
         } else {
             bindPageView()
             setPageViewAdaper()
         }
-
     }
+
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -214,18 +219,18 @@ class MainActivity : AppCompatActivity() {
     fun bindPageView(): Unit {
         val nowType: Type =
             object : TypeToken<MutableList<MyNow>>() {}.getType()
-        val now: MutableList<MyNow> = SpUtils.getBean(MyApplication.getContext(), "now", nowType)
+        val now: MutableList<MyNow> = SpUtils.getBean(MyApplication.getContext(), Key.NOW.toString(), nowType)
 
         val baseType: Type =
             object : TypeToken<MutableList<MyBase>>() {}.getType()
         val base: MutableList<MyBase> =
-            SpUtils.getBean(MyApplication.getContext(), "base", baseType)
+            SpUtils.getBean(MyApplication.getContext(), Key.BASE.toString(), baseType)
 
         val founderListType: Type =
             object : TypeToken<MutableList<MutableList<MyForecast>>>() {}.getType()
         val forecast: MutableList<MutableList<MyForecast>> = SpUtils.getBean(
             MyApplication.getContext(),
-            "daily_forecast", founderListType
+            Key.DAILY_FORECAST.toString(), founderListType
         )
 
         for (i in now.indices.reversed()){

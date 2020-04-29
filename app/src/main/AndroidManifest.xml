@@ -25,8 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.SettingActivity"></activity>
-        <activity android:name=".view.activity.DiscoverActivity" />
+
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -36,12 +35,18 @@
             android:value="7cb53cacd86426859dffdcbf984c2487" /> <!-- 声明Service组件 -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".view.activity.MainActivity">
+        <activity android:name=".view.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".view.activity.SettingActivity" />
+        <activity android:name=".view.activity.DiscoverActivity" />
+
+        <activity android:name=".view.activity.MainActivity">
+
         </activity>
     </application>
 

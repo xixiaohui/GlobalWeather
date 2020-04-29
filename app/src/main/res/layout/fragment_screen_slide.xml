@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="now"
             type="com.xixiaohui.weather.data.Now" />
+
         <variable
             name="base"
             type="com.xixiaohui.weather.data.Base" />
@@ -75,9 +77,9 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="50dp"
                     android:gravity="center_horizontal"
-                    android:text="@{base.location}"
+                    android:text="@{base.location+'·'+ base.parent_city+'·' + base.cnty}"
                     android:textColor="@color/colorFirst"
-                    android:textSize="40sp" />
+                    android:textSize="30sp" />
             </RelativeLayout>
             <!--            <include-->
             <!--                android:id="@+id/forcast"-->
@@ -89,8 +91,7 @@
                 android:id="@+id/recipe_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="40dp">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_marginTop="40dp"></androidx.recyclerview.widget.RecyclerView>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

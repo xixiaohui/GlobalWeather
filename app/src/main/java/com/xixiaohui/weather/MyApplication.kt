@@ -2,11 +2,14 @@ package com.xixiaohui.weather
 
 import android.app.Application
 import android.content.Context
+import com.google.gson.reflect.TypeToken
 import com.xixiaohui.weather.data.Base
 import com.xixiaohui.weather.data.Forecast
 import com.xixiaohui.weather.data.LifeStyle
 import com.xixiaohui.weather.data.Now
 import com.xixiaohui.weather.globalweather.until.ContentUtil
+import com.xixiaohui.weather.utils.SpUtils
+import com.xixiaohui.weather.view.activity.Key
 import com.xixiaohui.weather.view.fragments.ScreenSlideFragment
 import interfaces.heweather.com.interfacesmodule.bean.basic.Basic
 import interfaces.heweather.com.interfacesmodule.bean.weather.forecast.ForecastBase
@@ -16,13 +19,14 @@ import interfaces.heweather.com.interfacesmodule.view.HeConfig
 //import java.util.logging.Logger
 
 import org.apache.log4j.Logger
+import java.lang.reflect.Type
 
 
 class MyApplication : Application() {
 
     //获取屏幕的高，宽
-    companion object{
-        private  var instance: MyApplication? = null
+    companion object {
+        private var instance: MyApplication? = null
 
         fun getContext(): Context {
             return instance!!.applicationContext
@@ -39,9 +43,45 @@ class MyApplication : Application() {
         //增加额外的区域
 //        var otherAreas: MutableList<ScreenSlideFragment> = mutableListOf()
 
-        var isFirst:Boolean = true
+        var isFirst: Boolean = true
 
 
+        /**
+         * 读取缓存数据
+         */
+        fun getMySharedPreferences(): Unit {
+            val nowType: Type =
+                object : TypeToken<MutableList<Now>>() {}.getType()
+            val now: MutableList<Now>? =
+                SpUtils.getBean(MyApplication.getContext(), Key.NOW.toString(), nowType)
+            for (item in now!!) {
+                MyApplication.nowDatas.add(SpUtils.toNowBaseFromNow(item))
+            }
+            val baseType: Type =
+                object : TypeToken<MutableList<Base>>() {}.getType()
+            val base: MutableList<Base> =
+                SpUtils.getBean(MyApplication.getContext(), Key.BASE.toString(), baseType)
+            for (item in base!!) {
+                MyApplication.baseDatas.add(SpUtils.toBasicFromBase(item))
+            }
+
+            val founderListType: Type =
+                object : TypeToken<MutableList<MutableList<Forecast>>>() {}.getType()
+            val forecast: MutableList<MutableList<Forecast>> = SpUtils.getBean(
+                MyApplication.getContext(),
+                Key.DAILY_FORECAST.toString(), founderListType
+            )
+            for (item in forecast!!) {
+
+                val list = mutableListOf<ForecastBase>()
+                for (i in item){
+                    list.add(SpUtils.toForecastBaseFromForecast(i))
+                }
+                MyApplication.forecastDatas.add(list)
+            }
+
+            println()
+        }
     }
 
     var log: Logger? = null
@@ -81,12 +121,6 @@ class MyApplication : Application() {
 //        //gLogger = Logger.getLogger(this.getClass());
 //        log = Logger.getLogger("CrifanLiLog4jTest")
     }
-
-
-
-
-
-
 
 
 }

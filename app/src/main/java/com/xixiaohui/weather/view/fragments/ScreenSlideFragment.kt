@@ -208,7 +208,6 @@ class ScreenSlideFragment : Fragment() {
             3 -> binding.temperature.typeface = (activity as MainActivity).getMyFonts()
             else -> binding.temperature.typeface = (activity as MainActivity).getMyFonts()
         }
-
     }
 
     fun getArgumentsTest(): Unit {

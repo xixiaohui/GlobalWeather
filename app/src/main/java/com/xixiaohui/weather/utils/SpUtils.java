@@ -6,6 +6,10 @@ import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.xixiaohui.weather.data.Base;
+import com.xixiaohui.weather.data.Forecast;
+import com.xixiaohui.weather.data.Now;
+import com.xixiaohui.weather.view.activity.Key;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,6 +23,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import interfaces.heweather.com.interfacesmodule.bean.basic.Basic;
+import interfaces.heweather.com.interfacesmodule.bean.weather.forecast.ForecastBase;
+import interfaces.heweather.com.interfacesmodule.bean.weather.now.NowBase;
 
 /**
  * Created by niuchong on 2018/5/29.
@@ -497,7 +505,67 @@ public class SpUtils {
         return gson.fromJson(objString, typeOfT);
     }
 
+    public static Boolean isHaveData(Context context,String key){
+        String objString = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).getString(key, "");
+        return objString != null && objString !="";
+    }
 
+    public static NowBase toNowBaseFromNow(Now now){
+        NowBase nowBase = new NowBase();
+        nowBase.setCloud(now.cloud);
+        nowBase.setCond_code(now.getCond_code());
+        nowBase.setCond_txt(now.cond_txt);
+        nowBase.setFl(now.fl);
+        nowBase.setHum(now.hum);
+        nowBase.setPres(now.pres);
+        nowBase.setVis(now.vis);
+        nowBase.setTmp(now.tmp);
+        nowBase.setWind_deg(now.wind_deg);
+        nowBase.setWind_dir(now.wind_dir);
+        nowBase.setWind_spd(now.wind_spd);
+        nowBase.setWind_sc(now.wind_sc);
+        return  nowBase;
+    }
 
+    public static Basic toBasicFromBase(Base base){
+        Basic basic = new Basic();
+        basic.setAdmin_area(base.admin_area);
+        basic.setCid(base.getCid());
+        basic.setCnty(base.cnty);
+        basic.setLat(base.lat);
+        basic.setLocation(base.location);
+        basic.setLon(base.lon);
+        basic.setTz(base.tz);
+        basic.setParent_city(base.parent_city);
+        return basic;
+    }
+
+    public static ForecastBase toForecastBaseFromForecast(Forecast forecast){
+        ForecastBase forecastBase = new ForecastBase();
+
+        forecastBase.setCond_code_d(forecast.getCond_code_d());
+        forecastBase.setCond_code_n(forecast.cond_code_n);
+        forecastBase.setCond_txt_d(forecast.cond_txt_d);
+        forecastBase.setCond_txt_n(forecast.cond_txt_n);
+        forecastBase.setDate(forecast.date);
+        forecastBase.setHum(forecast.hum);
+        forecastBase.setMr(forecast.mr);
+        forecastBase.setMs(forecast.ms);
+        forecastBase.setPcpn(forecast.pcpn);
+        forecastBase.setPop(forecast.pop);
+        forecastBase.setPres(forecast.pres);
+        forecastBase.setSr(forecast.sr);
+        forecastBase.setSs(forecast.ss);
+        forecastBase.setTmp_max(forecast.tmp_max);
+        forecastBase.setTmp_min(forecast.tmp_min);
+        forecastBase.setUv_index(forecast.uv_index);
+        forecastBase.setVis(forecast.vis);
+        forecastBase.setWind_deg(forecast.wind_deg);
+        forecastBase.setWind_dir(forecast.wind_dir);
+        forecastBase.setWind_sc(forecast.wind_sc);
+        forecastBase.setWind_spd(forecast.wind_spd);
+
+        return forecastBase;
+    }
 
 }
