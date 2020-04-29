@@ -228,9 +228,7 @@ class MainActivity : AppCompatActivity() {
             "daily_forecast", founderListType
         )
 
-        println()
-
-        for (i in now.indices){
+        for (i in now.indices.reversed()){
             addAnotherArea(now[i], base[i], forecast[i])
         }
 
