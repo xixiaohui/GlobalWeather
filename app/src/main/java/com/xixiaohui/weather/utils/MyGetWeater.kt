@@ -44,6 +44,7 @@ class MyGetWeater {
 
                         //now
 //                        var nowJson = Gson().toJson(search?.now)
+
 //                        var now: Now = Gson().fromJson<Now>(nowJson, Now::class.java)
 
 
@@ -73,14 +74,19 @@ class MyGetWeater {
 //                                lifestyleType
 //                            )
 
+                        MyApplication.nowDatas.add(search!!.now)
+                        MyApplication.baseDatas.add(search!!.basic)
+                        MyApplication.forecastDatas.add(search!!.daily_forecast)
+                        MyApplication.lifeStyleDatas.add(search!!.lifestyle)
+
                         if (Code.OK.code
                                 .equals(search!!.status, ignoreCase = true)
                         ) {
                             //此时返回数据
-                            SpUtils.saveBean(MyApplication.getContext(),"now",search.now)
-                            SpUtils.saveBean(MyApplication.getContext(),"base",search.basic)
-                            SpUtils.saveBean(MyApplication.getContext(),"daily_forecast",search.daily_forecast)
-                            SpUtils.saveBean(MyApplication.getContext(),"lifestyle",search.lifestyle)
+                            SpUtils.saveBean(MyApplication.getContext(),"now",MyApplication.nowDatas)
+                            SpUtils.saveBean(MyApplication.getContext(),"base",MyApplication.baseDatas)
+                            SpUtils.saveBean(MyApplication.getContext(),"daily_forecast",MyApplication.forecastDatas)
+                            SpUtils.saveBean(MyApplication.getContext(),"lifestyle",MyApplication.lifeStyleDatas)
 
                             wellDone.getDataOk()
                         } else {

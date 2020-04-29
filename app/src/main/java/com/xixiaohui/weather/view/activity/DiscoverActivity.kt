@@ -52,7 +52,9 @@ class DiscoverActivity : AppCompatActivity() {
                     override fun getDataOk(): Boolean {
 
                         val intent = Intent(this@DiscoverActivity, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
+                        finish()
                         return true
                     }
                 })

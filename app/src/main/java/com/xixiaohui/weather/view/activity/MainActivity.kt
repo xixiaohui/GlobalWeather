@@ -212,24 +212,28 @@ class MainActivity : AppCompatActivity() {
      * 添加区域数据
      */
     fun bindPageView(): Unit {
+        val nowType: Type =
+            object : TypeToken<MutableList<MyNow>>() {}.getType()
+        val now: MutableList<MyNow> = SpUtils.getBean(MyApplication.getContext(), "now", nowType)
 
-        val now = SpUtils.getBean(MyApplication.getContext(), "now", MyNow::class.java)
-        val base = SpUtils.getBean(MyApplication.getContext(), "base", MyBase::class.java)
+        val baseType: Type =
+            object : TypeToken<MutableList<MyBase>>() {}.getType()
+        val base: MutableList<MyBase> =
+            SpUtils.getBean(MyApplication.getContext(), "base", baseType)
 
         val founderListType: Type =
-            object : TypeToken<MutableList<MyForecast?>?>() {}.getType()
-        val forecast:MutableList<MyForecast> = SpUtils.getBean(
+            object : TypeToken<MutableList<MutableList<MyForecast>>>() {}.getType()
+        val forecast: MutableList<MutableList<MyForecast>> = SpUtils.getBean(
             MyApplication.getContext(),
-            "daily_forecast", founderListType )
-//        val forecast = SpUtils.getBean(
-//            MyApplication.getContext(),
-//            "daily_forecast",
-//            object : TypeToken<MutableList<MyForecast>>() {}.javaClass
-//        )
+            "daily_forecast", founderListType
+        )
 
-
-        addAnotherArea(now, base, forecast)
         println()
+
+        for (i in now.indices){
+            addAnotherArea(now[i], base[i], forecast[i])
+        }
+
     }
 
     /**
@@ -248,13 +252,13 @@ class MainActivity : AppCompatActivity() {
 //        )
     }
 
-//    override fun onBackPressed() {
-//        if (mPager.currentItem == 0) {
-//            super.onBackPressed()
-//        } else {
-//            mPager.currentItem = mPager.currentItem - 1
-//        }
-//    }
+    override fun onBackPressed() {
+        if (mPager.currentItem == 0) {
+            super.onBackPressed()
+        } else {
+            mPager.currentItem = mPager.currentItem - 1
+        }
+    }
 
     fun getLocation(): String {
         return "蜀山"

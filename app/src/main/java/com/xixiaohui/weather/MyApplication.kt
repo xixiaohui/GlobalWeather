@@ -8,6 +8,10 @@ import com.xixiaohui.weather.data.LifeStyle
 import com.xixiaohui.weather.data.Now
 import com.xixiaohui.weather.globalweather.until.ContentUtil
 import com.xixiaohui.weather.view.fragments.ScreenSlideFragment
+import interfaces.heweather.com.interfacesmodule.bean.basic.Basic
+import interfaces.heweather.com.interfacesmodule.bean.weather.forecast.ForecastBase
+import interfaces.heweather.com.interfacesmodule.bean.weather.lifestyle.LifestyleBase
+import interfaces.heweather.com.interfacesmodule.bean.weather.now.NowBase
 import interfaces.heweather.com.interfacesmodule.view.HeConfig
 //import java.util.logging.Logger
 
@@ -24,6 +28,10 @@ class MyApplication : Application() {
             return instance!!.applicationContext
         }
 
+        var nowDatas: MutableList<NowBase> = mutableListOf()
+        var baseDatas: MutableList<Basic> = mutableListOf()
+        var forecastDatas: MutableList<MutableList<ForecastBase>> = mutableListOf()
+        var lifeStyleDatas: MutableList<MutableList<LifestyleBase>> = mutableListOf()
 //        var nowDatas: MutableList<Now> = mutableListOf()
 //        var baseDatas: MutableList<Base> = mutableListOf()
 //        var forecastDatas: MutableList<MutableList<Forecast>> = mutableListOf()
@@ -32,6 +40,8 @@ class MyApplication : Application() {
 //        var otherAreas: MutableList<ScreenSlideFragment> = mutableListOf()
 
         var isFirst:Boolean = true
+
+
     }
 
     var log: Logger? = null
