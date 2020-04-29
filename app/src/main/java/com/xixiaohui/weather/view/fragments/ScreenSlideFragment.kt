@@ -91,7 +91,7 @@ class ScreenSlideFragment : Fragment() {
                 index = 0
             }
         }
-//        initRecyclerView()
+
         initListView()
 
         return binding.root

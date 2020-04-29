@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,18 +26,8 @@ import java.util.List;
 
 public class SpUtils {
 
-    public static String PREFERENCE_NAME = "HeOpenApp";
+    public static String PREFERENCE_NAME = "GlobalWeather";
 
-    /**
-     * 清空统计数据
-     *
-     * @param context
-     */
-    public static void clearSp(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.clear().commit();
-    }
 
     public static String getWeek(Date date) {
         String[] weeks = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
@@ -47,6 +38,17 @@ public class SpUtils {
             week_index = 0;
         }
         return weeks[week_index];
+    }
+
+    /**
+     * 清空统计数据
+     *
+     * @param context
+     */
+    public static void clearSp(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.clear().commit();
     }
 
     /**
@@ -487,4 +489,15 @@ public class SpUtils {
         Gson gson = new Gson();
         return gson.fromJson(objString, clazz);
     }
+
+    public static <T> T getBean(Context context, String key,
+                                Type typeOfT) {
+        String objString = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).getString(key, "");
+        Gson gson = new Gson();
+        return gson.fromJson(objString, typeOfT);
+    }
+
+
+
+
 }

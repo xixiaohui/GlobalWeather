@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.xixiaohui.weather.data.Base
 import com.xixiaohui.weather.data.Forecast
+import com.xixiaohui.weather.data.LifeStyle
 import com.xixiaohui.weather.data.Now
 import com.xixiaohui.weather.globalweather.until.ContentUtil
 import com.xixiaohui.weather.view.fragments.ScreenSlideFragment
@@ -23,16 +24,14 @@ class MyApplication : Application() {
             return instance!!.applicationContext
         }
 
-        var nowDatas: MutableList<Now> = mutableListOf()
-        var baseDatas: MutableList<Base> = mutableListOf()
-        var forecastDatas: MutableList<MutableList<Forecast>> = mutableListOf()
-
+//        var nowDatas: MutableList<Now> = mutableListOf()
+//        var baseDatas: MutableList<Base> = mutableListOf()
+//        var forecastDatas: MutableList<MutableList<Forecast>> = mutableListOf()
+//        var lifeStyleDatas: MutableList<MutableList<LifeStyle>> = mutableListOf()
         //增加额外的区域
-        var otherAreas: MutableList<ScreenSlideFragment> = mutableListOf()
+//        var otherAreas: MutableList<ScreenSlideFragment> = mutableListOf()
 
-        var first:Boolean = true
-
-        var index = 0
+        var isFirst:Boolean = true
     }
 
     var log: Logger? = null

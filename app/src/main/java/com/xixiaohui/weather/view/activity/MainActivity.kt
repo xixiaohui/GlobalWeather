@@ -28,10 +28,13 @@ import com.xixiaohui.weather.R
 import com.xixiaohui.weather.databinding.ActivityMainBinding
 import com.xixiaohui.weather.globalweather.until.ContentUtil
 import com.xixiaohui.weather.service.LocationService
+import com.xixiaohui.weather.utils.MyGetWeater
 import com.xixiaohui.weather.utils.SpUtils
-import com.xixiaohui.weather.utils.TransUnitUtil
-import com.xixiaohui.weather.view.fragments.*
-import com.xixiaohui.weather.view.transform.ZoomOutPageTransformer
+import com.xixiaohui.weather.utils.SpUtils.getBean
+import com.xixiaohui.weather.view.fragments.ARG_BASE
+import com.xixiaohui.weather.view.fragments.ARG_FORECAST
+import com.xixiaohui.weather.view.fragments.ARG_NOW
+import com.xixiaohui.weather.view.fragments.ScreenSlideFragment
 import interfaces.heweather.com.interfacesmodule.bean.Code
 import interfaces.heweather.com.interfacesmodule.bean.Lang
 import interfaces.heweather.com.interfacesmodule.bean.air.Air
@@ -49,9 +52,9 @@ import interfaces.heweather.com.interfacesmodule.view.HeWeather
 import java.io.Serializable
 import java.lang.reflect.Type
 import com.xixiaohui.weather.data.Base as MyBase
+import com.xixiaohui.weather.data.City as MyCity
 import com.xixiaohui.weather.data.Forecast as MyForecast
 import com.xixiaohui.weather.data.Now as MyNow
-import com.xixiaohui.weather.data.City as MyCity
 
 class MainActivity : AppCompatActivity() {
 
@@ -60,16 +63,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var mPager: ViewPager
     private lateinit var mPagerAdaper: ScreenSlidePagerAdapter
-
-//    var now: MyNow?= null
-////    var base: MyBase? = null
-////    var forecast: MutableList<MyForecast> = mutableListOf<MyForecast>()
-
-
-
+    var otherAreas: MutableList<ScreenSlideFragment> = mutableListOf()
 
     lateinit var mSearchView: SearchView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,21 +73,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initPermission()
+    }
 
+    override fun onStart() {
+        super.onStart()
 
-        //从discover发送过来的新的地址
-        val intent = intent
-        val lat = intent.getStringExtra("LAT")
-        val lon = intent.getStringExtra("LON")
-        if (lat != null && lon != null) {
-            Log.i("MainActivity lat", lat)
-            Log.i("MainActivity lon", lon)
-            ContentUtil.NOW_LON = TransUnitUtil.getDouble(lon)
-            ContentUtil.NOW_LAT = TransUnitUtil.getDouble(lat)
-            MyApplication.index +=1
+        if (MyApplication.isFirst) {
+            initLocation()
+            MyApplication.isFirst = false
+        } else {
+            bindPageView()
+            setPageViewAdaper()
         }
 
-        initPermissionAndLocation()
     }
 
 
@@ -195,20 +190,46 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * 增加另外一个区域信息
+     * 发送数据并生成一个fragment
      */
-    fun addAnotherArea(now: MyNow, base: MyBase, forecast: MutableList<MyForecast>): Unit {
+    fun addAnotherArea(now: MyNow, base: MyBase, forecast: MutableList<MyForecast>?): Unit {
         val fragment = ScreenSlideFragment()
         val bundle = Bundle().also {
             it.putSerializable(ARG_NOW, now)
             it.putSerializable(ARG_BASE, base)
             var i = 0
-            for (i in 0 until forecast.size) {
-                it.putSerializable(ARG_FORECAST + i, forecast[i])
+            if (forecast != null) {
+                for (i in 0 until forecast!!.size) {
+                    it.putSerializable(ARG_FORECAST + i, forecast[i])
+                }
             }
         }
         fragment.arguments = bundle
-        MyApplication.otherAreas.add(fragment)
+        otherAreas.add(fragment)
+    }
+
+    /**
+     * 添加区域数据
+     */
+    fun bindPageView(): Unit {
+
+        val now = SpUtils.getBean(MyApplication.getContext(), "now", MyNow::class.java)
+        val base = SpUtils.getBean(MyApplication.getContext(), "base", MyBase::class.java)
+
+        val founderListType: Type =
+            object : TypeToken<MutableList<MyForecast?>?>() {}.getType()
+        val forecast:MutableList<MyForecast> = SpUtils.getBean(
+            MyApplication.getContext(),
+            "daily_forecast", founderListType )
+//        val forecast = SpUtils.getBean(
+//            MyApplication.getContext(),
+//            "daily_forecast",
+//            object : TypeToken<MutableList<MyForecast>>() {}.javaClass
+//        )
+
+
+        addAnotherArea(now, base, forecast)
+        println()
     }
 
     /**
@@ -217,26 +238,23 @@ class MainActivity : AppCompatActivity() {
      * base:新的区域 基础信息
      * forecast:新的区域 预报信息当天，明天，后天 共三天
      */
-    fun setPageViewAdaper(now: MyNow, base: MyBase, forecast: MutableList<MyForecast>) {
-
-        addAnotherArea(now, base, forecast)
-
+    fun setPageViewAdaper() {
         mPager = binding.viewPager
         mPagerAdaper = ScreenSlidePagerAdapter(supportFragmentManager)
         mPager.adapter = mPagerAdaper
-        mPager.setPageTransformer(
-            true,
-            ZoomOutPageTransformer()
-        )
+//        mPager.setPageTransformer(
+//            true,
+//            ZoomOutPageTransformer()
+//        )
     }
 
-    override fun onBackPressed() {
-        if (mPager.currentItem == 0) {
-            super.onBackPressed()
-        } else {
-            mPager.currentItem = mPager.currentItem - 1
-        }
-    }
+//    override fun onBackPressed() {
+//        if (mPager.currentItem == 0) {
+//            super.onBackPressed()
+//        } else {
+//            mPager.currentItem = mPager.currentItem - 1
+//        }
+//    }
 
     fun getLocation(): String {
         return "蜀山"
@@ -250,7 +268,7 @@ class MainActivity : AppCompatActivity() {
         var otherAreasAdapter: MutableList<ScreenSlideFragment> = mutableListOf()
 
         init {
-            this.otherAreasAdapter = MyApplication.otherAreas
+            this.otherAreasAdapter = otherAreas
 
         }
 
@@ -334,8 +352,10 @@ class MainActivity : AppCompatActivity() {
      * 获取当前位置
      */
     fun initPermissionAndLocation() {
-        initPermission()
+
+
         initLocation()
+
     }
 
     /**
@@ -465,7 +485,7 @@ class MainActivity : AppCompatActivity() {
                             founderListType
                         )
 
-                    MyApplication.forecastDatas.add(forecast)
+//                    MyApplication.forecastDatas.add(forecast)
 
                     Log.i(
                         "getWeatherForcast",
@@ -475,13 +495,6 @@ class MainActivity : AppCompatActivity() {
                             .equals(search!!.status, ignoreCase = true)
                     ) {
                         //设置listview
-
-                        for (i in 0..MyApplication.index) {
-                            val now = MyApplication.nowDatas[i]
-                            val base = MyApplication.baseDatas[i]
-                            val forecast = MyApplication.forecastDatas[i]
-                            setPageViewAdaper(now, base, forecast)
-                        }
 
 
                     } else {
@@ -510,19 +523,19 @@ class MainActivity : AppCompatActivity() {
             interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
             object : HeWeather.OnResultWeatherNowBeanListener {
                 override fun onSuccess(search: Now?) {
-                    Log.i("getWeatherNow", "Weather Now onSuccess:" + Gson().toJson(search))
-                    var nowJson = Gson().toJson(search?.now)
-                    //把json对象映射成Base对象
-                    var now: MyNow = Gson().fromJson<MyNow>(nowJson, MyNow::class.java)
-
-                    MyApplication.nowDatas.add(now)
-
-
-                    var baseJson = Gson().toJson(search?.basic)
-                    //把json对象映射成Base对象
-                    var base: MyBase = Gson().fromJson<MyBase>(baseJson, MyBase::class.java)
-
-                    MyApplication.baseDatas.add(base)
+//                    Log.i("getWeatherNow", "Weather Now onSuccess:" + Gson().toJson(search))
+//                    var nowJson = Gson().toJson(search?.now)
+//                    //把json对象映射成Base对象
+//                    var now: MyNow = Gson().fromJson<MyNow>(nowJson, MyNow::class.java)
+//
+//                    MyApplication.nowDatas.add(now)
+//
+//
+//                    var baseJson = Gson().toJson(search?.basic)
+//                    //把json对象映射成Base对象
+//                    var base: MyBase = Gson().fromJson<MyBase>(baseJson, MyBase::class.java)
+//
+//                    MyApplication.baseDatas.add(base)
 
 
                     if (Code.OK.code
@@ -557,18 +570,47 @@ class MainActivity : AppCompatActivity() {
             lang,
             interfaces.heweather.com.interfacesmodule.bean.Unit.METRIC,
             object : HeWeather.OnResultWeatherDataListBeansListener {
-                override fun onSuccess(weather: Weather?) {
-                    Log.i("getWeather", "getWeather onSuccess:" + Gson().toJson(weather))
+                override fun onSuccess(search: Weather?) {
+//                    Log.i("getWeather", "getWeather onSuccess:" + Gson().toJson(search))
+//
+//                    //now
+//                    var nowJson = Gson().toJson(search?.now)
+//                    var now: MyNow = Gson().fromJson<MyNow>(nowJson, MyNow::class.java)
+//                    MyApplication.nowDatas.add(now)
+//
+//                    //base
+//                    var baseJson = Gson().toJson(search?.basic)
+//                    var base: MyBase = Gson().fromJson<MyBase>(baseJson, MyBase::class.java)
+//                    MyApplication.baseDatas.add(base)
+//
+//                    //forecast
+//                    var forecastJson = Gson().toJson(search?.daily_forecast)
+//                    val founderListType: Type =
+//                        object : TypeToken<MutableList<MyForecast?>?>() {}.getType()
+//                    var forecast: MutableList<MyForecast> =
+//                        Gson().fromJson<MutableList<MyForecast>>(
+//                            forecastJson,
+//                            founderListType
+//                        )
+//                    MyApplication.forecastDatas.add(forecast)
+//
+//                    //lifestyle
+//                    var lifestyleJson = Gson().toJson(search?.lifestyle)
+//                    val lifestyleType: Type =
+//                        object : TypeToken<MutableList<LifeStyle>>() {}.getType()
+//                    var lifestyle: MutableList<LifeStyle> =
+//                        Gson().fromJson<MutableList<LifeStyle>>(
+//                            lifestyleJson,
+//                            lifestyleType
+//                        )
+//                    MyApplication.lifeStyleDatas.add(lifestyle)
                 }
 
                 override fun onError(e: Throwable?) {
 
                 }
-
-
             })
     }
-
 
     //声明AMapLocationClient类对象
     var mLocationClient: AMapLocationClient? = null
@@ -579,14 +621,19 @@ class MainActivity : AppCompatActivity() {
             if (amapLocation != null) {
                 if (amapLocation.getErrorCode() == 0) {
                     //可在其中解析amapLocation获取相应内容。获取经纬度，以供和风天气使用
+                    ContentUtil.NOW_LON = amapLocation.longitude
+                    ContentUtil.NOW_LAT = amapLocation.latitude
 
-                    if(MyApplication.first){
-                        ContentUtil.NOW_LON = amapLocation.longitude
-                        ContentUtil.NOW_LAT = amapLocation.latitude
-                        MyApplication.first = false
-                    }
+//                    getWeatherNow()
+                    MyGetWeater.getWeather(wellDone = object : MyGetWeater.WellDone {
+                        override fun getDataOk(): Boolean {
+                            Log.i("onLocationChanged", "获取天气数据成功")
 
-                    getWeatherNow()
+                            bindPageView()
+                            setPageViewAdaper()
+                            return true
+                        }
+                    })
 
                     Toast.makeText(
                         this@MainActivity,
@@ -667,6 +714,8 @@ class MainActivity : AppCompatActivity() {
     private fun startIntent() {
 
     }
+
+
 }
 
 

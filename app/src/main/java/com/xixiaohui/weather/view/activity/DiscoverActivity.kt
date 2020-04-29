@@ -13,6 +13,7 @@ import com.xixiaohui.weather.view.adapter.SearchAdapter
 import com.xixiaohui.weather.bean.CityBean
 import com.xixiaohui.weather.data.City
 import com.xixiaohui.weather.databinding.ActivityDiscoverBinding
+import com.xixiaohui.weather.utils.MyGetWeater
 import java.io.Serializable
 
 class DiscoverActivity : AppCompatActivity() {
@@ -46,10 +47,20 @@ class DiscoverActivity : AppCompatActivity() {
                 val lat = data[position].lat
                 val lon = data[position].lon
 
-                val intent = Intent(this@DiscoverActivity, MainActivity::class.java)
-                intent.putExtra("LAT",lat)
-                intent.putExtra("LON",lon)
-                startActivity(intent)
+                //获取天气数据
+                MyGetWeater.getWeather(lon,lat,wellDone = object :MyGetWeater.WellDone{
+                    override fun getDataOk(): Boolean {
+
+                        val intent = Intent(this@DiscoverActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        return true
+                    }
+                })
+
+//                val intent = Intent(this@DiscoverActivity, MainActivity::class.java)
+//                intent.putExtra("LAT",lat)
+//                intent.putExtra("LON",lon)
+//                startActivity(intent)
 
             }
 
