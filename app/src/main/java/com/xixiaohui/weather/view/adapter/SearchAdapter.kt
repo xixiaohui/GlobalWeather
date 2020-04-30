@@ -54,10 +54,6 @@ class SearchAdapter(var data: MutableList<City>) : Adapter<RecyclerView.ViewHold
             val lat = data[position].lat
             val lon = data[position].lon
 
-//            val intent = Intent(actvity, DiscoverActivity::class.java)
-//            intent.putExtra("LAT",lat)
-//            intent.putExtra("LON",lon)
-
         }
 
     }

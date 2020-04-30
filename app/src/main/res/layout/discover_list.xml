@@ -8,8 +8,7 @@
     android:orientation="vertical"
     android:layout_marginTop="@dimen/madding_right"
     tools:context=".view.activity.DiscoverActivity"
-    android:layout_marginLeft="@dimen/madding_right"
-    android:layout_marginRight="@dimen/madding_right"
+
     android:id="@+id/city"
     android:clickable="true">
 

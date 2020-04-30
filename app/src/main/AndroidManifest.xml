@@ -5,15 +5,13 @@
     <!-- 和风需求权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
 <!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于访问网络，网络定位需要上网 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 用于读取手机当前的状态 -->
+
 <!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> &lt;!&ndash; 用于写入缓存数据到扩展存储卡 &ndash;&gt;-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 用于申请调用A-GPS模块 -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
@@ -29,14 +27,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-1941973989297560~1987552982" /> <!-- 设置高德key -->
+            android:value="ca-app-pub-1941973989297560~9296456545" />
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="7cb53cacd86426859dffdcbf984c2487" /> <!-- 声明Service组件 -->
-        <service android:name="com.amap.api.location.APSService" />
+            android:value="7cb53cacd86426859dffdcbf984c2487" /> <!-- 设置高德key -->
+
+        <service android:name="com.amap.api.location.APSService" /><!-- 声明Service组件 -->
 
         <activity android:name=".view.activity.SplashActivity">
             <intent-filter>
@@ -46,7 +45,7 @@
         </activity>
 
         <activity android:name=".view.activity.SettingActivity" />
-        <activity android:name=".view.activity.DiscoverActivity" />
+        <activity android:name=".view.activity.DiscoverActivity" android:theme="@style/DiscoverTheme"/>
 
         <activity android:name=".view.activity.MainActivity">
 

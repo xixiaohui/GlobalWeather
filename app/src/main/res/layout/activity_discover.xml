@@ -5,12 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorBeijing"
+    android:orientation="vertical"
     tools:context=".view.activity.DiscoverActivity">
+
+
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:id="@+id/my_template"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:gnt_template_type="@layout/gnt_medium_template_view"></com.google.android.ads.nativetemplates.TemplateView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/discover_recycle_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+
 
 </LinearLayout>

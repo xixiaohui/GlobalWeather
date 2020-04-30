@@ -77,13 +77,13 @@ class MyGetWeater {
 
                         MyApplication.nowDatas.add(search!!.now)
                         MyApplication.baseDatas.add(search!!.basic)
-                        MyApplication.forecastDatas.add(search!!.daily_forecast)
+                        MyApplication.forecastDatas.add(search.daily_forecast)
                         if(search.lifestyle != null){
-                            MyApplication.lifeStyleDatas.add(search!!.lifestyle)
+                            MyApplication.lifeStyleDatas.add(search.lifestyle)
                         }
 
                         if (Code.OK.code
-                                .equals(search!!.status, ignoreCase = true)
+                                .equals(search.status, ignoreCase = true)
                         ) {
                             //此时返回数据
                             SpUtils.saveBean(MyApplication.getContext(),Key.NOW.toString(),MyApplication.nowDatas)
@@ -94,7 +94,7 @@ class MyGetWeater {
                             wellDone.getDataOk()
                         } else {
                             //在此查看返回数据失败的原因
-                            val status = search!!.status
+                            val status = search.status
                             val code =
                                 Code.toEnum(status)
                             Log.i("getWeatherNow failed", "failed code: $code")

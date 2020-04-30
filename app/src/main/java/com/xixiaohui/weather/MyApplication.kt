@@ -61,7 +61,7 @@ class MyApplication : Application() {
                 object : TypeToken<MutableList<Base>>() {}.getType()
             val base: MutableList<Base> =
                 SpUtils.getBean(MyApplication.getContext(), Key.BASE.toString(), baseType)
-            for (item in base!!) {
+            for (item in base) {
                 MyApplication.baseDatas.add(SpUtils.toBasicFromBase(item))
             }
 
@@ -71,7 +71,7 @@ class MyApplication : Application() {
                 MyApplication.getContext(),
                 Key.DAILY_FORECAST.toString(), founderListType
             )
-            for (item in forecast!!) {
+            for (item in forecast) {
 
                 val list = mutableListOf<ForecastBase>()
                 for (i in item){

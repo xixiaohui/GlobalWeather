@@ -1,25 +1,31 @@
 package com.xixiaohui.weather.view.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.ads.nativetemplates.NativeTemplateStyle
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.formats.NativeAdOptions
 import com.xixiaohui.weather.MyApplication
-import com.xixiaohui.weather.view.adapter.SearchAdapter
 import com.xixiaohui.weather.bean.CityBean
 import com.xixiaohui.weather.data.City
 import com.xixiaohui.weather.databinding.ActivityDiscoverBinding
 import com.xixiaohui.weather.utils.MyGetWeater
-import java.io.Serializable
+import com.xixiaohui.weather.view.adapter.SearchAdapter
 
 class DiscoverActivity : AppCompatActivity() {
-    lateinit var binding:ActivityDiscoverBinding
+    lateinit var binding: ActivityDiscoverBinding
 
-    lateinit var data:MutableList<CityBean>
+    lateinit var data: MutableList<CityBean>
+
+    lateinit var adLoader: AdLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +34,7 @@ class DiscoverActivity : AppCompatActivity() {
 
         val intent = intent
         val bundle = intent.getBundleExtra("DATA")
-        val data =  bundle.getSerializable("DATA")
+        val data = bundle.getSerializable("DATA")
 
         val searchAdapter =
             SearchAdapter(data as MutableList<City>)
@@ -41,35 +47,56 @@ class DiscoverActivity : AppCompatActivity() {
             setHasFixedSize(true)
         }
 
-        binding.discoverRecycleView.addOnItemClickListener(object:OnItemClickListener {
+        binding.discoverRecycleView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
 
                 val lat = data[position].lat
                 val lon = data[position].lon
 
                 //获取天气数据
-                MyGetWeater.getWeather(lon,lat,wellDone = object :MyGetWeater.WellDone{
+                MyGetWeater.getWeather(lon, lat, wellDone = object : MyGetWeater.WellDone {
                     override fun getDataOk(): Boolean {
 
                         val intent = Intent(this@DiscoverActivity, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
                         return true
                     }
                 })
 
-//                val intent = Intent(this@DiscoverActivity, MainActivity::class.java)
-//                intent.putExtra("LAT",lat)
-//                intent.putExtra("LON",lon)
-//                startActivity(intent)
-
             }
 
         })
 
+        MobileAds.initialize(this){}
+        adLoader = AdLoader.Builder(this, "ca-app-pub-3940256099942544/2247696110")
+            .forUnifiedNativeAd {
+                //Show the ad.
+                val style = NativeTemplateStyle.Builder().build()
+                val template = binding.myTemplate
+                template.setStyles(style)
+                template.setNativeAd(it)
 
+                if (adLoader.isLoading) {
+                    // The AdLoader is still loading ads.
+                    // Expect more adLoaded or onAdFailedToLoad callbacks.
+                } else {
+                    // The AdLoader has finished loading ads.
 
+                    Log.i("forUnifiedNativeAd","success")
+                }
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(errorCode: Int) {
+                    // Handle the failure by logging, altering the UI, and so on.
+                }
+            })
+            .withNativeAdOptions(NativeAdOptions.Builder().build())
+            .build()
+        adLoader.loadAds(AdRequest.Builder().build(),5)
+//        adLoader.loadAd(AdRequest.Builder().build())
 
     }
 
@@ -79,7 +106,8 @@ class DiscoverActivity : AppCompatActivity() {
     }
 
     fun RecyclerView.addOnItemClickListener(onClickListener: OnItemClickListener) {
-        this.addOnChildAttachStateChangeListener(object: RecyclerView.OnChildAttachStateChangeListener {
+        this.addOnChildAttachStateChangeListener(object :
+            RecyclerView.OnChildAttachStateChangeListener {
             override fun onChildViewDetachedFromWindow(view: View) {
                 view?.setOnClickListener(null)
             }
