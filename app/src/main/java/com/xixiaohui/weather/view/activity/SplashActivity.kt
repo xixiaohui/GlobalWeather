@@ -12,14 +12,13 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-//        SpUtils.clearSp(MyApplication.getContext())
-
+        SpUtils.clearSp(MyApplication.getContext())
 //        MyApplication.getMySharedPreferences()
 
-        runToMainActivity()
+        this.runToMainActivity()
     }
 
-    fun runToMainActivity(): Unit {
+    private fun runToMainActivity(): Unit {
         val intent = Intent(this@SplashActivity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

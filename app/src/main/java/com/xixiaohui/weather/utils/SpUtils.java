@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import interfaces.heweather.com.interfacesmodule.bean.Lang;
 import interfaces.heweather.com.interfacesmodule.bean.basic.Basic;
 import interfaces.heweather.com.interfacesmodule.bean.weather.forecast.ForecastBase;
 import interfaces.heweather.com.interfacesmodule.bean.weather.now.NowBase;
@@ -36,17 +37,6 @@ public class SpUtils {
 
     public static String PREFERENCE_NAME = "GlobalWeather";
 
-
-    public static String getWeek(Date date) {
-        String[] weeks = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int week_index = cal.get(Calendar.DAY_OF_WEEK) - 1;
-        if (week_index < 0) {
-            week_index = 0;
-        }
-        return weeks[week_index];
-    }
 
     /**
      * 清空统计数据
@@ -505,12 +495,12 @@ public class SpUtils {
         return gson.fromJson(objString, typeOfT);
     }
 
-    public static Boolean isHaveData(Context context,String key){
+    public static Boolean isHaveData(Context context, String key) {
         String objString = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).getString(key, "");
-        return objString != null && objString !="";
+        return objString != null && objString != "";
     }
 
-    public static NowBase toNowBaseFromNow(Now now){
+    public static NowBase toNowBaseFromNow(Now now) {
         NowBase nowBase = new NowBase();
         nowBase.setCloud(now.cloud);
         nowBase.setCond_code(now.getCond_code());
@@ -524,10 +514,10 @@ public class SpUtils {
         nowBase.setWind_dir(now.wind_dir);
         nowBase.setWind_spd(now.wind_spd);
         nowBase.setWind_sc(now.wind_sc);
-        return  nowBase;
+        return nowBase;
     }
 
-    public static Basic toBasicFromBase(Base base){
+    public static Basic toBasicFromBase(Base base) {
         Basic basic = new Basic();
         basic.setAdmin_area(base.admin_area);
         basic.setCid(base.getCid());
@@ -540,7 +530,7 @@ public class SpUtils {
         return basic;
     }
 
-    public static ForecastBase toForecastBaseFromForecast(Forecast forecast){
+    public static ForecastBase toForecastBaseFromForecast(Forecast forecast) {
         ForecastBase forecastBase = new ForecastBase();
 
         forecastBase.setCond_code_d(forecast.getCond_code_d());
@@ -566,6 +556,29 @@ public class SpUtils {
         forecastBase.setWind_spd(forecast.wind_spd);
 
         return forecastBase;
+    }
+    public static final int EN = 0;
+    public static final int ZH = 1;
+
+    public static String getWeek(Date date, int lang) {
+        String[] weeks = {};
+        switch (lang) {
+            case ZH:
+                weeks = new String[]{"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+                break;
+            case EN:
+            default:
+                weeks = new String[]{"Sun.", "Mon.", "Tues.", "Wed.", "Thur.", "Fri.", "Sat."};
+                break;
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int week_index = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (week_index < 0) {
+            week_index = 0;
+        }
+        return weeks[week_index];
     }
 
 }

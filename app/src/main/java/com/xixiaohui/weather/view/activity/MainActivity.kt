@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -56,9 +57,10 @@ import com.xixiaohui.weather.data.City as MyCity
 import com.xixiaohui.weather.data.Forecast as MyForecast
 import com.xixiaohui.weather.data.Now as MyNow
 
-enum class Key{
-    NOW,BASE,DAILY_FORECAST,LIFE_STYLE
+enum class Key {
+    NOW, BASE, DAILY_FORECAST, LIFE_STYLE
 }
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -79,21 +81,34 @@ class MainActivity : AppCompatActivity() {
         initPermission()
 
         if (MyApplication.isFirst) {
-            if(SpUtils.isHaveData(MyApplication.getContext(),Key.NOW.toString())){
-                MyApplication.getMySharedPreferences()
-                bindPageView()
-                setPageViewAdaper()
-            }else{
-                initLocation()
-            }
+//            if(SpUtils.isHaveData(MyApplication.getContext(),Key.NOW.toString())){
+//                MyApplication.getMySharedPreferences()
+//                bindPageView()
+//                setPageViewAdaper()
+//            }else{
+            initLocation()
+//            }
             MyApplication.isFirst = false
         } else {
             bindPageView()
             setPageViewAdaper()
+            hideLoadingWidget()
         }
     }
 
+    /**
+     * 隐藏loading
+     */
+    fun hideLoadingWidget(): Unit {
+        binding.loading.containerProgressBarLayout.visibility = View.GONE
+    }
 
+    /**
+     * 显示loading
+     */
+    fun showLoadingWidget(): Unit {
+        binding.loading.containerProgressBarLayout.visibility = View.VISIBLE
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         var inflater = menuInflater
@@ -109,7 +124,8 @@ class MainActivity : AppCompatActivity() {
             //文字提交的时候哦回调，newText是最后提交搜索的文字
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.i("onQueryTextSubmit", query)
-                getSearchResult(query)
+                getSearchResult(query, Lang.ENGLISH)
+                showLoadingWidget()
                 return false
             }
 
@@ -126,7 +142,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * 获取搜索结果
      */
-    private fun getSearchResult(location: String?) {
+    private fun getSearchResult(location: String?, lang: Lang) {
         if (location == null || location == "") {
             return
         }
@@ -136,7 +152,7 @@ class MainActivity : AppCompatActivity() {
             location,
             "cn,overseas",
             20,
-            Lang.CHINESE_SIMPLIFIED,
+            lang,
             object : HeWeather.OnResultSearchBeansListener {
                 override fun onSuccess(search: Search?) {
                     if (search?.getStatus() != "unknown city" && search?.getStatus() != "noData") {
@@ -164,7 +180,7 @@ class MainActivity : AppCompatActivity() {
                             bundle.putSerializable("DATA", data as Serializable)
                             intent.putExtra("DATA", bundle)
                             startActivity(intent)
-
+                            hideLoadingWidget()
 
                         }
                     }
@@ -185,11 +201,11 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
-            R.id.media_route_menu_item -> {
-                val intent = Intent(this@MainActivity, SettingActivity::class.java)
-                startActivity(intent)
-                true
-            }
+//            R.id.media_route_menu_item -> {
+//                val intent = Intent(this@MainActivity, SettingActivity::class.java)
+//                startActivity(intent)
+//                true
+//            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -219,7 +235,8 @@ class MainActivity : AppCompatActivity() {
     fun bindPageView(): Unit {
         val nowType: Type =
             object : TypeToken<MutableList<MyNow>>() {}.getType()
-        val now: MutableList<MyNow> = SpUtils.getBean(MyApplication.getContext(), Key.NOW.toString(), nowType)
+        val now: MutableList<MyNow> =
+            SpUtils.getBean(MyApplication.getContext(), Key.NOW.toString(), nowType)
 
         val baseType: Type =
             object : TypeToken<MutableList<MyBase>>() {}.getType()
@@ -233,7 +250,7 @@ class MainActivity : AppCompatActivity() {
             Key.DAILY_FORECAST.toString(), founderListType
         )
 
-        for (i in now.indices.reversed()){
+        for (i in now.indices.reversed()) {
             addAnotherArea(now[i], base[i], forecast[i])
         }
 
@@ -309,30 +326,30 @@ class MainActivity : AppCompatActivity() {
     /**
      * 获取英文字体
      */
-    fun getEnglishFonts(): Typeface {
-//        var mgr = assets
-        var tf: Typeface = Typeface.createFromAsset(assets, "fonts/GloriaHallelujah-Regular.ttf")
-        return tf
-    }
-
-    fun getEnglishFontsOne(): Typeface {
-//        var mgr = assets
-        var tf: Typeface = Typeface.createFromAsset(assets, "fonts/AmaticSC-Regular.ttf")
-        return tf
-    }
-
-    fun getEnglishFontsTwo(): Typeface {
-//        var mgr = assets
-        var tf: Typeface =
-            Typeface.createFromAsset(assets, "fonts/MountainsofChristmas-Regular.ttf")
-        return tf
-    }
-
-    fun getEnglishFontsThree(): Typeface {
-//        var mgr = assets
-        var tf: Typeface = Typeface.createFromAsset(assets, "fonts/SueEllenFrancisco-Regular.ttf")
-        return tf
-    }
+//    fun getEnglishFonts(): Typeface {
+////        var mgr = assets
+//        var tf: Typeface = Typeface.createFromAsset(assets, "fonts/GloriaHallelujah-Regular.ttf")
+//        return tf
+//    }
+//
+//    fun getEnglishFontsOne(): Typeface {
+////        var mgr = assets
+//        var tf: Typeface = Typeface.createFromAsset(assets, "fonts/AmaticSC-Regular.ttf")
+//        return tf
+//    }
+//
+//    fun getEnglishFontsTwo(): Typeface {
+////        var mgr = assets
+//        var tf: Typeface =
+//            Typeface.createFromAsset(assets, "fonts/MountainsofChristmas-Regular.ttf")
+//        return tf
+//    }
+//
+//    fun getEnglishFontsThree(): Typeface {
+////        var mgr = assets
+//        var tf: Typeface = Typeface.createFromAsset(assets, "fonts/SueEllenFrancisco-Regular.ttf")
+//        return tf
+//    }
 
     companion object {
         fun getMyFonts(): Typeface {
@@ -638,19 +655,20 @@ class MainActivity : AppCompatActivity() {
 
                             bindPageView()
                             setPageViewAdaper()
+                            hideLoadingWidget()
                             return true
                         }
                     })
 
                     Toast.makeText(
                         this@MainActivity,
-                        "Location Success" + "经度=" + ContentUtil.NOW_LON + "纬度=" + ContentUtil.NOW_LAT,
+                        "Location Success" + "Lon=" + ContentUtil.NOW_LON + "Lat=" + ContentUtil.NOW_LAT,
                         Toast.LENGTH_LONG
                     ).show()
-                    Log.i(
-                        "AmapError",
-                        "Location Success" + "经度=" + ContentUtil.NOW_LON + "纬度=" + ContentUtil.NOW_LAT
-                    );
+//                    Log.i(
+//                        "AmapError",
+//                        "Location Success" + "经度=" + ContentUtil.NOW_LON + "纬度=" + ContentUtil.NOW_LAT
+//                    );
 
                     mLocationClient?.onDestroy()
                 } else {
@@ -661,11 +679,11 @@ class MainActivity : AppCompatActivity() {
                                 + amapLocation.getErrorInfo()
                     );
 
-                    Toast.makeText(
-                        this@MainActivity, "location Error, ErrCode:"
-                                + amapLocation.getErrorCode() + ", errInfo:"
-                                + amapLocation.getErrorInfo(), Toast.LENGTH_LONG
-                    ).show()
+//                    Toast.makeText(
+//                        this@MainActivity, "location Error, ErrCode:"
+//                                + amapLocation.getErrorCode() + ", errInfo:"
+//                                + amapLocation.getErrorInfo(), Toast.LENGTH_LONG
+//                    ).show()
                 }
             }
         }

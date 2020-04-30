@@ -46,7 +46,7 @@ class ScreenSlideFragment : Fragment() {
     private lateinit var base: Base
     private lateinit var forecast: MutableList<Forecast>
 
-    var index = 0
+
     lateinit var mPager: ViewPager
     lateinit var binding: FragmentScreenSlideBinding
 
@@ -67,7 +67,6 @@ class ScreenSlideFragment : Fragment() {
         }
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,20 +76,12 @@ class ScreenSlideFragment : Fragment() {
         binding.now = this.now
         binding.base = this.base
 
-        binding.location.typeface = (activity as MainActivity).getMyFonts()
-        binding.temperature.typeface = (activity as MainActivity).getEnglishFontsOne()
-        binding.condTxt.typeface = (activity as MainActivity).getMyFonts()
+        binding.location.typeface = MainActivity.getMyFonts()
+        binding.temperature.typeface = MainActivity.getEnglishFontsOne()
+        binding.condTxt.typeface = MainActivity.getMyFonts()
 
 //        initTextViewsText()
         binding.mainWeatherImg.setImageResource(MyIconUtils.getWeatherIcon(now.cond_code))
-        binding.mainWeatherImg.setOnClickListener {
-
-            chanageTypeface(index)
-            index++
-            if (index > 3) {
-                index = 0
-            }
-        }
 
         initListView()
 
@@ -145,7 +136,7 @@ class ScreenSlideFragment : Fragment() {
             holder.viewItem.findViewById<TextView>(R.id.text_weekday_one).apply {
                 val df = SimpleDateFormat("yyyy-MM-dd")
                 val date = df.parse(list[position].date)
-                this.text = SpUtils.getWeek(date)
+                this.text = SpUtils.getWeek(date,SpUtils.EN)
                 this.typeface = MainActivity.getMyFonts()
             }
 
@@ -200,15 +191,15 @@ class ScreenSlideFragment : Fragment() {
 
     }
 
-    fun chanageTypeface(index: Int): Unit {
-        when (index) {
-            0 -> binding.temperature.typeface = (activity as MainActivity).getEnglishFontsOne()
-            1 -> binding.temperature.typeface = (activity as MainActivity).getEnglishFontsTwo()
-            2 -> binding.temperature.typeface = (activity as MainActivity).getEnglishFontsThree()
-            3 -> binding.temperature.typeface = (activity as MainActivity).getMyFonts()
-            else -> binding.temperature.typeface = (activity as MainActivity).getMyFonts()
-        }
-    }
+//    fun chanageTypeface(index: Int): Unit {
+//        when (index) {
+//            0 -> binding.temperature.typeface = (activity as MainActivity).getEnglishFontsOne()
+//            1 -> binding.temperature.typeface = (activity as MainActivity).getEnglishFontsTwo()
+//            2 -> binding.temperature.typeface = (activity as MainActivity).getEnglishFontsThree()
+//            3 -> binding.temperature.typeface = (activity as MainActivity).getMyFonts()
+//            else -> binding.temperature.typeface = (activity as MainActivity).getMyFonts()
+//        }
+//    }
 
     fun getArgumentsTest(): Unit {
         val location = arguments?.get("LOCATION")

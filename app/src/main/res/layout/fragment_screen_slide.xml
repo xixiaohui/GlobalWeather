@@ -79,7 +79,7 @@
                     android:gravity="center_horizontal"
                     android:text="@{base.location+'·'+ base.parent_city+'·' + base.cnty}"
                     android:textColor="@color/colorFirst"
-                    android:textSize="30sp" />
+                    android:textSize="15sp" />
             </RelativeLayout>
             <!--            <include-->
             <!--                android:id="@+id/forcast"-->

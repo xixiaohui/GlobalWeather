@@ -31,7 +31,7 @@ class MyGetWeater {
         /**
          * 常规天气数据集合
          */
-        fun getWeather(lon: String, lat: String, lang: Lang = Lang.CHINESE_SIMPLIFIED,wellDone:WellDone): Unit {
+        fun getWeather(lon: String, lat: String, lang: Lang = Lang.ENGLISH,wellDone:WellDone): Unit {
 
             var location = lon + "," + lat
 
@@ -111,7 +111,7 @@ class MyGetWeater {
         /**
          * 常规天气数据集合
          */
-        fun getWeather(lang: Lang = Lang.CHINESE_SIMPLIFIED,wellDone: WellDone): Unit {
+        fun getWeather(lang: Lang = Lang.ENGLISH,wellDone: WellDone): Unit {
             getWeather(ContentUtil.NOW_LON.toString(), ContentUtil.NOW_LAT.toString(), lang,wellDone)
         }
     }

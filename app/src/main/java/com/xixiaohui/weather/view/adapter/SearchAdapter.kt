@@ -44,8 +44,8 @@ class SearchAdapter(var data: MutableList<City>) : Adapter<RecyclerView.ViewHold
             tvparent_city.text = data[position].parent_city
             tvcnty.text = data[position].cnty
 
-            tvlat.text = "纬度: "+data[position].lat
-            tvlon.text = "经度: "+data[position].lon
+            tvlat.text = "Lat: "+data[position].lat
+            tvlon.text = "Lon: "+data[position].lon
         }
 
         viewHolder.city.setOnClickListener{
