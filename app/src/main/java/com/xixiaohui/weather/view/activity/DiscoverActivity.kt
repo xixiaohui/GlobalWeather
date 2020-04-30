@@ -14,11 +14,16 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.xixiaohui.weather.MyApplication
+import com.xixiaohui.weather.R
 import com.xixiaohui.weather.bean.CityBean
 import com.xixiaohui.weather.data.City
 import com.xixiaohui.weather.databinding.ActivityDiscoverBinding
 import com.xixiaohui.weather.utils.MyGetWeater
 import com.xixiaohui.weather.view.adapter.SearchAdapter
+import com.xixiaohui.weather.view.adapter.SearchHeaderAdapter
+import java.io.Serializable
+
+import com.google.android.ads.nativetemplates.TemplateView as MyNativeAdsTemplatesView
 
 class DiscoverActivity : AppCompatActivity() {
     lateinit var binding: ActivityDiscoverBinding
@@ -27,17 +32,63 @@ class DiscoverActivity : AppCompatActivity() {
 
     lateinit var adLoader: AdLoader
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityDiscoverBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        recycleViewItemOnclick()
+        addNativeAds()
+
+
+    }
+
+    /**
+     * adMob native ads
+     */
+    fun addNativeAds() {
+        MobileAds.initialize(this) {}
+        adLoader = AdLoader.Builder(this, "ca-app-pub-3940256099942544/2247696110")
+            .forUnifiedNativeAd {
+                //Show the ad.
+                val style = NativeTemplateStyle.Builder().build()
+                val template =
+                    binding.discoverRecycleView.findViewById<MyNativeAdsTemplatesView>(R.id.my_native_ads_template)
+                template.setStyles(style)
+                template.setNativeAd(it)
+
+                if (adLoader.isLoading) {
+                    // The AdLoader is still loading ads.
+                    // Expect more adLoaded or onAdFailedToLoad callbacks.
+                } else {
+                    // The AdLoader has finished loading ads.
+
+                    Log.i("forUnifiedNativeAd", "success")
+                }
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(errorCode: Int) {
+                    // Handle the failure by logging, altering the UI, and so on.
+                }
+            })
+            .withNativeAdOptions(NativeAdOptions.Builder().build())
+            .build()
+        adLoader.loadAds(AdRequest.Builder().build(), 5)
+//        adLoader.loadAd(AdRequest.Builder().build())
+    }
+
+    //初始化recycle view 并且 响应recycle view的点击事件
+    fun recycleViewItemOnclick(): Unit {
 
         val intent = intent
         val bundle = intent.getBundleExtra("DATA")
         val data = bundle.getSerializable("DATA")
 
         val searchAdapter =
-            SearchAdapter(data as MutableList<City>)
+            SearchHeaderAdapter(data as MutableList<City>)
         val viewManager = LinearLayoutManager(MyApplication.getContext())
         viewManager.orientation = LinearLayoutManager.VERTICAL
 
@@ -69,43 +120,13 @@ class DiscoverActivity : AppCompatActivity() {
             }
 
         })
-
-        MobileAds.initialize(this){}
-        adLoader = AdLoader.Builder(this, "ca-app-pub-3940256099942544/2247696110")
-            .forUnifiedNativeAd {
-                //Show the ad.
-                val style = NativeTemplateStyle.Builder().build()
-                val template = binding.myTemplate
-                template.setStyles(style)
-                template.setNativeAd(it)
-
-                if (adLoader.isLoading) {
-                    // The AdLoader is still loading ads.
-                    // Expect more adLoaded or onAdFailedToLoad callbacks.
-                } else {
-                    // The AdLoader has finished loading ads.
-
-                    Log.i("forUnifiedNativeAd","success")
-                }
-            }
-            .withAdListener(object : AdListener() {
-                override fun onAdFailedToLoad(errorCode: Int) {
-                    // Handle the failure by logging, altering the UI, and so on.
-                }
-            })
-            .withNativeAdOptions(NativeAdOptions.Builder().build())
-            .build()
-        adLoader.loadAds(AdRequest.Builder().build(),5)
-//        adLoader.loadAd(AdRequest.Builder().build())
-
     }
-
 
     interface OnItemClickListener {
         fun onItemClicked(position: Int, view: View)
     }
 
-    fun RecyclerView.addOnItemClickListener(onClickListener: OnItemClickListener) {
+    private fun RecyclerView.addOnItemClickListener(onClickListener: OnItemClickListener) {
         this.addOnChildAttachStateChangeListener(object :
             RecyclerView.OnChildAttachStateChangeListener {
             override fun onChildViewDetachedFromWindow(view: View) {

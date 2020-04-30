@@ -221,7 +221,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * 发送数据并生成一个fragment
      */
-    fun addAnotherArea(now: MyNow, base: MyBase, forecast: MutableList<MyForecast>?): Unit {
+    fun addAnotherArea(now: MyNow, base: MyBase?, forecast: MutableList<MyForecast>?): Unit {
         val fragment = ScreenSlideFragment()
         val bundle = Bundle().also {
             it.putSerializable(ARG_NOW, now)
@@ -243,23 +243,23 @@ class MainActivity : AppCompatActivity() {
     fun bindPageView(): Unit {
         val nowType: Type =
             object : TypeToken<MutableList<MyNow>>() {}.getType()
-        val now: MutableList<MyNow> =
+        val now: MutableList<MyNow>? =
             SpUtils.getBean(MyApplication.getContext(), Key.NOW.toString(), nowType)
 
         val baseType: Type =
             object : TypeToken<MutableList<MyBase>>() {}.getType()
-        val base: MutableList<MyBase> =
+        val base: MutableList<MyBase>? =
             SpUtils.getBean(MyApplication.getContext(), Key.BASE.toString(), baseType)
 
         val founderListType: Type =
             object : TypeToken<MutableList<MutableList<MyForecast>>>() {}.getType()
-        val forecast: MutableList<MutableList<MyForecast>> = SpUtils.getBean(
+        val forecast: MutableList<MutableList<MyForecast>>? = SpUtils.getBean(
             MyApplication.getContext(),
             Key.DAILY_FORECAST.toString(), founderListType
         )
 
-        for (i in now.indices.reversed()) {
-            addAnotherArea(now[i], base[i], forecast[i])
+        for (i in now!!.indices.reversed()) {
+            addAnotherArea(now[i], base!![i], forecast!![i])
         }
 
     }
