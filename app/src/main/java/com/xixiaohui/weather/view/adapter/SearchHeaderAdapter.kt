@@ -35,7 +35,7 @@ class SearchHeaderAdapter(var data: MutableList<City>) :
     }
 
     override fun getItemCount(): Int {
-        return data.size + 1
+        return data.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
