@@ -155,10 +155,18 @@ class MainActivity : AppCompatActivity() {
             lang,
             object : HeWeather.OnResultSearchBeansListener {
                 override fun onSuccess(search: Search?) {
-                    if (search?.getStatus() != "unknown city" && search?.getStatus() != "noData") {
+
+                    if(search?.status == "unknown location"){
+                        Toast.makeText(this@MainActivity,"unknown location",Toast.LENGTH_SHORT).show()
+                        hideLoadingWidget()
+                        return
+                    }
+                    if (search?.status != "unknown city" && search?.getStatus() != "noData" &&search?.status != "unknown location") {
 
                         Log.i("getSearchResult", Gson().toJson(search))
-                        val basic: MutableList<Basic> = search?.basic!!
+
+
+                        val basic: MutableList<Basic>? = search?.basic!!
                         val data: MutableList<MyCity> = mutableListOf()
                         if (basic != null && basic.size > 0) {
                             if (data.size > 0) {
@@ -651,7 +659,7 @@ class MainActivity : AppCompatActivity() {
 //                    getWeatherNow()
                     MyGetWeater.getWeather(wellDone = object : MyGetWeater.WellDone {
                         override fun getDataOk(): Boolean {
-                            Log.i("onLocationChanged", "获取天气数据成功")
+                            Log.i("onLocationChanged", "get weather success")
 
                             bindPageView()
                             setPageViewAdaper()
@@ -663,7 +671,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(
                         this@MainActivity,
                         "Location Success" + "Lon=" + ContentUtil.NOW_LON + "Lat=" + ContentUtil.NOW_LAT,
-                        Toast.LENGTH_LONG
+                        Toast.LENGTH_SHORT
                     ).show()
 //                    Log.i(
 //                        "AmapError",

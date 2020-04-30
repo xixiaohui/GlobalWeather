@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GlobalWeather</string>
+    <string name="app_name">GWeather</string>
     <string name="location">location</string>
     <string name="temperature">temperature</string>
     <!-- TODO: Remove or change this placeholder text -->
