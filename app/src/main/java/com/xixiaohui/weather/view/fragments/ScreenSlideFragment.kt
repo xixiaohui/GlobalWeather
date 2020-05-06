@@ -136,7 +136,7 @@ class ScreenSlideFragment : Fragment() {
             holder.viewItem.findViewById<TextView>(R.id.text_weekday_one).apply {
                 val df = SimpleDateFormat("yyyy-MM-dd")
                 val date = df.parse(list[position].date)
-                this.text = SpUtils.getWeek(date,SpUtils.EN)
+                this.text = SpUtils.getWeek(date, Locale.getDefault().language)
                 this.typeface = MainActivity.getMyFonts()
             }
 

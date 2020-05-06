@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
             //文字提交的时候哦回调，newText是最后提交搜索的文字
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.i("onQueryTextSubmit", query)
-                getSearchResult(query, Lang.ENGLISH)
+                getSearchResult(query, LocaleUtil.getLangByLocale())
                 showLoadingWidget()
                 return false
             }
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * 获取搜索结果
      */
-    private fun getSearchResult(location: String?, lang: Lang) {
+    private fun getSearchResult(location: String?, lang: Lang= Lang.ENGLISH) {
         if (location == null || location == "") {
             return
         }

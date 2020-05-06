@@ -18,6 +18,7 @@ import com.xixiaohui.weather.R
 import com.xixiaohui.weather.bean.CityBean
 import com.xixiaohui.weather.data.City
 import com.xixiaohui.weather.databinding.ActivityDiscoverBinding
+import com.xixiaohui.weather.utils.LocaleUtil
 import com.xixiaohui.weather.utils.MyGetWeater
 import com.xixiaohui.weather.view.adapter.SearchAdapter
 import com.xixiaohui.weather.view.adapter.SearchHeaderAdapter
@@ -39,10 +40,8 @@ class DiscoverActivity : AppCompatActivity() {
         binding = ActivityDiscoverBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         recycleViewItemOnclick()
         addNativeAds()
-
 
     }
 
@@ -107,7 +106,7 @@ class DiscoverActivity : AppCompatActivity() {
                 val lon = data[position].lon
 
                 //获取天气数据
-                MyGetWeater.getWeather(lon, lat, wellDone = object : MyGetWeater.WellDone {
+                MyGetWeater.getWeather(lon, lat, LocaleUtil.getLangByLocale(),wellDone = object : MyGetWeater.WellDone {
                     override fun getDataOk(): Boolean {
 
                         val intent = Intent(this@DiscoverActivity, MainActivity::class.java)

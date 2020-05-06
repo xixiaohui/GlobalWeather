@@ -560,13 +560,43 @@ public class SpUtils {
     public static final int EN = 0;
     public static final int ZH = 1;
 
-    public static String getWeek(Date date, int lang) {
+    public static String getWeek(Date date, String value) {
         String[] weeks = {};
-        switch (lang) {
-            case ZH:
+        switch (value) {
+            case LocaleUtil.zh_hans:
+            case LocaleUtil.zh:
+            case LocaleUtil.hk:
+            case LocaleUtil.tw:
                 weeks = new String[]{"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
                 break;
-            case EN:
+            case LocaleUtil.de:
+                weeks = new String[]{"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
+                break;
+            case LocaleUtil.es:
+                weeks = new String[]{"Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
+                break;
+            case LocaleUtil.fr:
+                weeks = new String[]{"Dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"};
+                break;
+            case LocaleUtil.it:
+                weeks = new String[]{"Domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"};
+                break;
+            case LocaleUtil.ja:
+                weeks = new String[]{"日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"};
+                break;
+            case LocaleUtil.ko:
+                weeks = new String[]{"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
+                break;
+            case LocaleUtil.ru:
+                weeks = new String[]{"Воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"};
+                break;
+            case LocaleUtil.in:
+                weeks = new String[]{"रविवार", "सोमवार", "मंगलवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"};
+                break;
+            case LocaleUtil.th:
+                weeks = new String[]{"วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์"};
+                break;
+            case LocaleUtil.en:
             default:
                 weeks = new String[]{"Sun.", "Mon.", "Tues.", "Wed.", "Thur.", "Fri.", "Sat."};
                 break;
