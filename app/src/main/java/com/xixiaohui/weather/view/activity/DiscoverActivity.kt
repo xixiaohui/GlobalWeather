@@ -51,7 +51,9 @@ class DiscoverActivity : AppCompatActivity() {
      */
     fun addNativeAds() {
         MobileAds.initialize(this) {}
-        adLoader = AdLoader.Builder(this, "ca-app-pub-3940256099942544/2247696110")
+        //test native ads id ： ca-app-pub-3940256099942544/2247696110
+        var myNativeAdsId = "ca-app-pub-1941973989297560/1066029574"
+        adLoader = AdLoader.Builder(this, myNativeAdsId)
             .forUnifiedNativeAd {
                 //Show the ad.
                 val style = NativeTemplateStyle.Builder().build()

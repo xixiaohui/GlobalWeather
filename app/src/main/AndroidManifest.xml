@@ -29,7 +29,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-1941973989297560~9296456545" />
+            android:value="ca-app-pub-1941973989297560~2379111241" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"

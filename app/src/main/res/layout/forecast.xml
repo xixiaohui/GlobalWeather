@@ -27,10 +27,19 @@
         android:src="@mipmap/sunny" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_weekday_tem_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="7"
+        android:textColor="@color/colorFirst"
+        android:textSize="@dimen/text_size_smaller" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_weekday_tem_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/madding_top_second"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:text="7"

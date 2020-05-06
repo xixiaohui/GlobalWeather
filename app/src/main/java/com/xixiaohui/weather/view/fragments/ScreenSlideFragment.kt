@@ -143,6 +143,11 @@ class ScreenSlideFragment : Fragment() {
             holder.viewItem.findViewById<ImageView>(R.id.image_weekday_one).apply {
                 this.setImageResource(MyIconUtils.getWeatherIcon(list[position].cond_code_d))
             }
+
+            holder.viewItem.findViewById<TextView>(R.id.text_weekday_tem_two).apply {
+                this.text = list[position].cond_txt_d
+                this.typeface = MainActivity.getMyFonts()
+            }
         }
     }
 
