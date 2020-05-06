@@ -29,6 +29,7 @@ import com.xixiaohui.weather.R
 import com.xixiaohui.weather.databinding.ActivityMainBinding
 import com.xixiaohui.weather.globalweather.until.ContentUtil
 import com.xixiaohui.weather.service.LocationService
+import com.xixiaohui.weather.utils.LocaleUtil
 import com.xixiaohui.weather.utils.MyGetWeater
 import com.xixiaohui.weather.utils.SpUtils
 import com.xixiaohui.weather.utils.SpUtils.getBean
@@ -72,6 +73,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var mSearchView: SearchView
 
+    lateinit var lang:Lang
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -79,6 +82,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initPermission()
+
+        lang = LocaleUtil.getLangByLocale()
 
         if (MyApplication.isFirst) {
 //            if(SpUtils.isHaveData(MyApplication.getContext(),Key.NOW.toString())){
@@ -404,6 +409,7 @@ class MainActivity : AppCompatActivity() {
 
     //空气质量实况 permission denied
     fun getWeatherAirNow(): Unit {
+
         HeWeather.getAirNow(this@MainActivity,
             ContentUtil.NOW_LON.toString() + "," + ContentUtil.NOW_LAT,
             Lang.CHINESE_SIMPLIFIED,
@@ -657,7 +663,7 @@ class MainActivity : AppCompatActivity() {
                     ContentUtil.NOW_LAT = amapLocation.latitude
 
 //                    getWeatherNow()
-                    MyGetWeater.getWeather(wellDone = object : MyGetWeater.WellDone {
+                    MyGetWeater.getWeather(lang = lang,wellDone = object : MyGetWeater.WellDone {
                         override fun getDataOk(): Boolean {
                             Log.i("onLocationChanged", "get weather success")
 
