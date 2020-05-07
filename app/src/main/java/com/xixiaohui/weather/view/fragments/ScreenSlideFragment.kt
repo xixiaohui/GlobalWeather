@@ -24,7 +24,6 @@ import com.xixiaohui.weather.databinding.FragmentScreenSlideBinding
 import com.xixiaohui.weather.utils.MyIconUtils
 import com.xixiaohui.weather.utils.SpUtils
 import com.xixiaohui.weather.view.activity.DetailActivity
-import com.xixiaohui.weather.view.activity.DiscoverActivity
 import com.xixiaohui.weather.view.activity.MainActivity
 import java.io.Serializable
 import java.text.SimpleDateFormat
@@ -96,6 +95,20 @@ class ScreenSlideFragment : Fragment() {
         binding.mainWeatherImg.setOnClickListener {
             onClickGotoDetailPage(it)
         }
+
+        binding.temperature.setOnClickListener {
+            onClickGotoDetailPage(it)
+        }
+
+        binding.location.setOnClickListener {
+            onClickGotoDetailPage(it)
+        }
+
+        binding.condTxt.setOnClickListener {
+            onClickGotoDetailPage(it)
+        }
+
+
     }
 
     /**
@@ -112,7 +125,7 @@ class ScreenSlideFragment : Fragment() {
     fun gotoDetailPage(): Unit {
         val intent = Intent(MyApplication.getContext(), DetailActivity::class.java)
         var bundle = Bundle()
-        bundle.putSerializable("DATA", now as Serializable)
+        bundle.putSerializable("DATA", forecast as Serializable)
         intent.putExtra("DATA", bundle)
         startActivity(intent)
     }
@@ -125,7 +138,14 @@ class ScreenSlideFragment : Fragment() {
         viewManager.orientation = LinearLayoutManager.HORIZONTAL
 
         this.viewManager = viewManager
-        viewAdapter = MyAdapter(forecast)
+        viewAdapter = MyAdapter(forecast).apply {
+            setOnItemClickListener(object : MyAdapter.OnItemClickListener {
+                override fun onItemClick(view: View?, position: Int) {
+                    Log.i("onItemClick", "position = " + position)
+                    onClickGotoDetailPage(view!!)
+                }
+            })
+        }
 
         recyclerView = binding.recipeListView.apply {
             layoutManager = viewManager
@@ -135,7 +155,7 @@ class ScreenSlideFragment : Fragment() {
     }
 
     class MyAdapter(var list: MutableList<Forecast>) :
-        RecyclerView.Adapter<MyAdapter.ViewListViewHolder>() {
+        RecyclerView.Adapter<MyAdapter.ViewListViewHolder>(), View.OnClickListener {
 
         class ViewListViewHolder(var viewItem: View) : RecyclerView.ViewHolder(viewItem) {}
 
@@ -143,9 +163,16 @@ class ScreenSlideFragment : Fragment() {
             MyApplication.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
+        private var mOnItemClickListener: OnItemClickListener? = null
+
+        interface OnItemClickListener {
+            fun onItemClick(view: View?, position: Int)
+        }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewListViewHolder {
             var view = inflater.inflate(R.layout.forecast, parent, false)
 
+            view.setOnClickListener(this)
             return ViewListViewHolder(view)
         }
 
@@ -175,9 +202,20 @@ class ScreenSlideFragment : Fragment() {
                 this.text = list[position].cond_txt_d
                 this.typeface = MainActivity.getMyFonts()
             }
-        }
-    }
 
+
+        }
+
+        override fun onClick(v: View?) {
+
+            mOnItemClickListener?.onItemClick(v, 0)
+        }
+
+        fun setOnItemClickListener(listener: OnItemClickListener?) {
+            mOnItemClickListener = listener
+        }
+
+    }
 
     fun getArgumentsTest(): Unit {
         val location = arguments?.get("LOCATION")
@@ -192,6 +230,7 @@ class ScreenSlideFragment : Fragment() {
         binding = FragmentScreenSlideBinding.inflate(layoutInflater)
         binding.location.text = location
     }
+
 
     companion object {
         /**

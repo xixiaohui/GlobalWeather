@@ -32,7 +32,6 @@ import com.xixiaohui.weather.service.LocationService
 import com.xixiaohui.weather.utils.LocaleUtil
 import com.xixiaohui.weather.utils.MyGetWeater
 import com.xixiaohui.weather.utils.SpUtils
-import com.xixiaohui.weather.utils.SpUtils.getBean
 import com.xixiaohui.weather.view.fragments.ARG_BASE
 import com.xixiaohui.weather.view.fragments.ARG_FORECAST
 import com.xixiaohui.weather.view.fragments.ARG_NOW
@@ -753,6 +752,8 @@ class MainActivity : AppCompatActivity() {
     private fun startIntent() {
 
     }
+
+
 
 
 }

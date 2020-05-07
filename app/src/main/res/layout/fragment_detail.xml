@@ -1,17 +1,382 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBeijing"
-    tools:context=".DetailFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+        <variable
+            name="forcast"
+            type="com.xixiaohui.weather.data.Forecast" />
+    </data>
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="@dimen/text_size"
-        android:textColor="@color/colorFirst"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/colorBeijing"
 
-</FrameLayout>
+        tools:context=".DetailFragment">
+
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/cond_txt_d" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.cond_txt_d}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/date" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.date}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/hum" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.hum}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/mr" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.mr}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/ms" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.ms}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/pcpn" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.pcpn}" />
+        </TableRow>
+
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/pop" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.pop}" />
+        </TableRow>
+
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/pres" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.pres}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/sr" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.sr}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/ss" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.ss}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/tmp_max" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.tmp_max}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/tmp_min" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.tmp_min}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/uv_index" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.uv_index}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/vis" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.vis}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/wind_deg" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.wind_deg}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/wind_dir" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.wind_dir}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/wind_sc" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.wind_sc}" />
+        </TableRow>
+        <TableRow android:padding="@dimen/table_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@string/wind_spd" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/colorFirst"
+                android:textSize="@dimen/table_text_size"
+                android:text="@{forcast.wind_spd}" />
+        </TableRow>
+
+    </TableLayout>
+</layout>

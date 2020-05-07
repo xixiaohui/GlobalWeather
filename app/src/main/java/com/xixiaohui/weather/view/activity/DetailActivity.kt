@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.xixiaohui.weather.DetailFragment
+import com.xixiaohui.weather.data.Forecast
 import com.xixiaohui.weather.data.Now
 import com.xixiaohui.weather.data.WeatherData
 import com.xixiaohui.weather.databinding.ActivityDetailBinding
@@ -18,7 +19,7 @@ class DetailActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityDetailBinding
 
-    private lateinit var data: WeatherData
+    private lateinit var data: MutableList<Forecast>
 
     lateinit var mTabLayout: TabLayout
     lateinit var mViewPager: ViewPager
@@ -66,9 +67,9 @@ class DetailActivity : AppCompatActivity() {
 
 
         val fragments: MutableList<Fragment> = mutableListOf()
-        fragments.add(DetailFragment.newInstance("", ""))
-        fragments.add(DetailFragment.newInstance("", ""))
-        fragments.add(DetailFragment.newInstance("", ""))
+        fragments.add(DetailFragment.newInstance(data[0]))
+        fragments.add(DetailFragment.newInstance(data[1]))
+        fragments.add(DetailFragment.newInstance(data[2]))
 
         val adapter = MyDetailPageViewAdapter(supportFragmentManager, fragments,titles)
         mViewPager.adapter = adapter
@@ -127,9 +128,7 @@ class DetailActivity : AppCompatActivity() {
         val intent = intent
         val bundle = intent.getBundleExtra("DATA")
         val data = bundle.getSerializable("DATA")
-        this.data = data as Now
-        binding.now = this.data as Now
-        println()
+        this.data = data as MutableList<Forecast>
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

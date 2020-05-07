@@ -14,4 +14,7 @@
     <dimen name="madding_top_second">12dp</dimen>
     <dimen name="text_title_madding_left">6dp</dimen>
 
+    <dimen name="table_padding">7dp</dimen>
+    <dimen name="table_text_size">15dp</dimen>
+    <dimen name="table_margin_top">20dp</dimen>
 </resources>
