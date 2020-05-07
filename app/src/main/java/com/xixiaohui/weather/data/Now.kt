@@ -3,7 +3,7 @@ package com.xixiaohui.weather.data
 import java.io.Serializable
 
 
-data class Now(var cond_code:String): Serializable {
+data class Now(var cond_code:String): Serializable,WeatherData {
 
     //cond_code实况天气状况代码
 

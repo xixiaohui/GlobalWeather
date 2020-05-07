@@ -19,4 +19,14 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="MyTablayoutstyle" parent="Base.Widget.Design.TabLayout">
+        <item name="tabBackground">@color/colorBeijing</item>
+        <item name="tabIndicatorColor">@color/colorFirst</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabSelectedTextColor">@color/colorFirst</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorSecond</item>
+    </style>
+
+
 </resources>

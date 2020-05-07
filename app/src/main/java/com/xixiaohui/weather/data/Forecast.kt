@@ -25,7 +25,7 @@ wind_dir	"东北风"    风向
 wind_sc	"3-4"           风力
 wind_spd	"24"        风速，公里/小时
  */
-data class Forecast( val cond_code_d:String): Serializable {
+data class Forecast( val cond_code_d:String): Serializable,WeatherData {
 
     lateinit var cond_code_n:String;
     lateinit var cond_txt_d:String;

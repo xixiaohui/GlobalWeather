@@ -37,7 +37,7 @@
                     android:layout_height="300dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
-                    android:src="@mipmap/sunny" />
+                    android:src="@mipmap/sunny"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -81,18 +81,13 @@
                     android:textColor="@color/colorFirst"
                     android:textSize="15sp" />
             </RelativeLayout>
-            <!--            <include-->
-            <!--                android:id="@+id/forcast"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                layout="@layout/forcast_item_view"></include>-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recipe_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="40dp"></androidx.recyclerview.widget.RecyclerView>
-
+                android:layout_marginTop="40dp">
+            </androidx.recyclerview.widget.RecyclerView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

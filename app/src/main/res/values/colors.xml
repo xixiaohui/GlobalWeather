@@ -9,4 +9,6 @@
     <color name="colorFirst">#ffffff</color>
     <color name="colorSecond">#B8B8B8</color>
     <color name="colorGrey">#FFB8B8B8</color>
+
+    <color name="colorSelect">#ff3900</color>
 </resources>

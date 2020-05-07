@@ -1,6 +1,7 @@
 package com.xixiaohui.weather.view.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,7 +23,10 @@ import com.xixiaohui.weather.data.Now
 import com.xixiaohui.weather.databinding.FragmentScreenSlideBinding
 import com.xixiaohui.weather.utils.MyIconUtils
 import com.xixiaohui.weather.utils.SpUtils
+import com.xixiaohui.weather.view.activity.DetailActivity
+import com.xixiaohui.weather.view.activity.DiscoverActivity
 import com.xixiaohui.weather.view.activity.MainActivity
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -80,14 +84,38 @@ class ScreenSlideFragment : Fragment() {
         binding.temperature.typeface = MainActivity.getEnglishFontsOne()
         binding.condTxt.typeface = MainActivity.getMyFonts()
 
-//        initTextViewsText()
         binding.mainWeatherImg.setImageResource(MyIconUtils.getWeatherIcon(now.cond_code))
 
         initListView()
+        setOnClickEvents()
 
         return binding.root
     }
 
+    fun setOnClickEvents(): Unit {
+        binding.mainWeatherImg.setOnClickListener {
+            onClickGotoDetailPage(it)
+        }
+    }
+
+    /**
+     * 进入详情页面
+     */
+    fun onClickGotoDetailPage(viewItem: View): Unit {
+        gotoDetailPage()
+    }
+
+    /**
+     * 页面跳转
+     * 传递数据
+     */
+    fun gotoDetailPage(): Unit {
+        val intent = Intent(MyApplication.getContext(), DetailActivity::class.java)
+        var bundle = Bundle()
+        bundle.putSerializable("DATA", now as Serializable)
+        intent.putExtra("DATA", bundle)
+        startActivity(intent)
+    }
 
     /**
      * 初始化 list view
@@ -104,7 +132,6 @@ class ScreenSlideFragment : Fragment() {
             adapter = viewAdapter
             setHasFixedSize(true)
         }
-
     }
 
     class MyAdapter(var list: MutableList<Forecast>) :
@@ -151,60 +178,6 @@ class ScreenSlideFragment : Fragment() {
         }
     }
 
-
-    /**
-     * 初始化text view
-     */
-    fun initTextViewsText(): Unit {
-
-//        binding.forcast.nowFlValue.text= now.fl
-//        binding.forcast.nowPcpnValue.text = now.pcpn
-//        binding.forcast.nowPresValue.text = now.pres
-//        binding.forcast.nowTmpValue.text = now.tmp
-//        binding.forcast.nowVisValue.text = now.vis
-//        binding.forcast.nowWindDirValue.text = now.wind_dir
-//
-//        val typeface = MainActivity.getMyFonts()
-//        binding.forcast.nowFlValue.typeface = typeface
-//        binding.forcast.nowPcpnValue.typeface = typeface
-//        binding.forcast.nowPresValue.typeface = typeface
-//        binding.forcast.nowTmpValue.typeface = typeface
-//        binding.forcast.nowVisValue.typeface = typeface
-//        binding.forcast.nowWindDirValue.typeface = typeface
-//
-//        binding.forcast.nowVis.typeface = typeface
-//        binding.forcast.nowTmp.typeface = typeface
-//        binding.forcast.nowPres.typeface = typeface
-//        binding.forcast.nowPcpn.typeface = typeface
-//        binding.forcast.nowFl.typeface = typeface
-//        binding.forcast.nowWindDir.typeface = typeface
-
-    }
-
-    /**
-     * 初始化RecyclerView
-     */
-    fun initRecyclerView(): Unit {
-
-//        var recyclerView = binding.bottomSrollView
-//        recyclerView.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
-//        val adapt = BottomRecyclerViewAdapter()
-//        val data = mutableListOf<Now>()
-//        data.add(now)
-//        adapt.data = data
-//        recyclerView.adapter =adapt
-
-    }
-
-//    fun chanageTypeface(index: Int): Unit {
-//        when (index) {
-//            0 -> binding.temperature.typeface = (activity as MainActivity).getEnglishFontsOne()
-//            1 -> binding.temperature.typeface = (activity as MainActivity).getEnglishFontsTwo()
-//            2 -> binding.temperature.typeface = (activity as MainActivity).getEnglishFontsThree()
-//            3 -> binding.temperature.typeface = (activity as MainActivity).getMyFonts()
-//            else -> binding.temperature.typeface = (activity as MainActivity).getMyFonts()
-//        }
-//    }
 
     fun getArgumentsTest(): Unit {
         val location = arguments?.get("LOCATION")
