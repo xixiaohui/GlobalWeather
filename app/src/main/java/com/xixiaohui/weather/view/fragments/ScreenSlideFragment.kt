@@ -107,8 +107,6 @@ class ScreenSlideFragment : Fragment() {
         binding.condTxt.setOnClickListener {
             onClickGotoDetailPage(it)
         }
-
-
     }
 
     /**
